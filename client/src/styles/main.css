@@ -1,0 +1,237 @@
+@import './tokens.css';
+@import './typography.css';
+@import './animations.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+#app {
+  height: 100%;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background:    var(--color-surface-3);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+::selection {
+  background: var(--color-accent-faint);
+  color:      var(--color-text);
+}
+
+:focus-visible {
+  outline:        2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius:  var(--radius-sm);
+}
+
+.app__main > * {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-8);
+}
+
+/* ─── Mobile & Responsive ─────────────────────────────────────────────────── */
+
+/* Tablet — sidebar сжимается */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 180px;
+  }
+
+  .app__main > * {
+    max-width: 100%;
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+    --space-8: 20px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .app {
+    flex-direction: column;
+  }
+
+  .app__main > * {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .dashboard__row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-bar {
+    gap: var(--space-2);
+  }
+
+  .rating-btn {
+    min-width: 60px;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .card-flip-scene {
+    height: 260px;
+  }
+
+  .summary__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .words-toolbar,
+  .vocab-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .word-row__example,
+  .word-row__deck,
+  .phrase-row__context {
+    display: none;
+  }
+
+  .due-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .deck-header__body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .palette__box {
+    max-width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .palette-backdrop {
+    align-items: flex-end;
+    padding-top: 0;
+  }
+
+  .toast-stack {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    left: var(--space-4);
+  }
+
+  .toast {
+    max-width: 100%;
+    min-width: unset;
+  }
+
+  :root {
+    --text-2xl: 26px;
+    --text-xl:  20px;
+    --text-3xl: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard__row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .summary__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .summary__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mode-tabs {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .mode-tab {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .deck-stats {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

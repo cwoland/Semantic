@@ -1,0 +1,90 @@
+:root {
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-md:   17px;
+  --text-lg:   20px;
+  --text-xl:   24px;
+  --text-2xl:  32px;
+  --text-3xl:  44px;
+
+  --leading-tight:  1.2;
+  --leading-snug:   1.4;
+  --leading-normal: 1.6;
+  --leading-loose:  1.8;
+
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+}
+
+body {
+  font-family:  var(--font-sans);
+  font-size:    var(--text-base);
+  line-height:  var(--leading-normal);
+  font-weight:  var(--weight-normal);
+  color:        var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family:  var(--font-sans);
+  font-weight:  var(--weight-medium);
+  line-height:  var(--leading-tight);
+  color:        var(--color-text);
+  margin:       0;
+}
+
+h1 { font-size: var(--text-2xl); letter-spacing: -0.02em; }
+h2 { font-size: var(--text-xl);  letter-spacing: -0.01em; }
+h3 { font-size: var(--text-lg);  }
+h4 { font-size: var(--text-md);  }
+
+.text-xs     { font-size: var(--text-xs); }
+.text-sm     { font-size: var(--text-sm); }
+.text-base   { font-size: var(--text-base); }
+.text-lg     { font-size: var(--text-lg); }
+.text-xl     { font-size: var(--text-xl); }
+
+.text-muted  { color: var(--color-text-muted); }
+.text-faint  { color: var(--color-text-faint); }
+.text-accent { color: var(--color-accent); }
+
+.font-mono   { font-family: var(--font-mono); }
+
+.word-display {
+  font-size:      clamp(var(--text-2xl), 6vw, var(--text-3xl));
+  font-weight:    var(--weight-medium);
+  letter-spacing: -0.02em;
+  line-height:    var(--leading-tight);
+  text-align:     center;
+  color:          var(--color-text);
+}
+
+.word-translation {
+  font-size:    var(--text-md);
+  color:        var(--color-text-muted);
+  text-align:   center;
+  line-height:  var(--leading-snug);
+}
+
+.word-example {
+  font-family:  var(--font-serif);
+  font-size:    var(--text-base);
+  color:        var(--color-text-faint);
+  font-style:   italic;
+  text-align:   center;
+  line-height:  var(--leading-loose);
+}
+
+kbd {
+  font-family:      var(--font-mono);
+  font-size:        var(--text-xs);
+  padding:          2px 6px;
+  border-radius:    var(--radius-sm);
+  background:       var(--color-surface-2);
+  border:           1px solid var(--color-border-strong);
+  color:            var(--color-text-muted);
+  letter-spacing:   0.04em;
+}

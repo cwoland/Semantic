@@ -1,0 +1,124 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transition: opacity 280ms ease, transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-up-leave-active {
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+.slide-right-enter-active {
+  transition: opacity 240ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-right-leave-active {
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.card-flip-scene {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-flip-front,
+.card-flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-flip-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes flame-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.12); opacity: 0.85; }
+}
+
+.flame-pulse {
+  animation: flame-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rating-reveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.rating-bar {
+  animation: rating-reveal 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0)    scale(1); }
+  to   { opacity: 0; transform: translateY(8px)  scale(0.96); }
+}
+
+.toast-enter-active { animation: toast-in  240ms cubic-bezier(0.22, 1, 0.36, 1); }
+.toast-leave-active { animation: toast-out 180ms ease forwards; }
+
+.palette-enter-active,
+.palette-leave-active {
+  transition: opacity 160ms ease;
+}
+.palette-enter-active .palette__box,
+.palette-leave-active .palette__box {
+  transition: opacity 160ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.palette-enter-from,
+.palette-leave-to {
+  opacity: 0;
+}
+.palette-enter-from .palette__box,
+.palette-leave-to   .palette__box {
+  opacity: 0;
+  transform: scale(0.97) translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
