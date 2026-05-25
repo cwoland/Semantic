@@ -6,6 +6,7 @@ export { useStatsStore }     from './stats.store'
 export { usePhrasesStore }   from './phrases.store'
 export { useSettingsStore }  from './settings.store'
 export { useImmersionStore } from './immersion.store'
+export { useCoursesStore }   from './courses.store'
 
 export async function bootstrapStores() {
   const [
@@ -15,6 +16,7 @@ export async function bootstrapStores() {
     { useStatsStore },
     { usePhrasesStore },
     { useSettingsStore },
+    { useCoursesStore },
   ] = await Promise.all([
     import('./words.store'),
     import('./decks.store'),
@@ -22,6 +24,7 @@ export async function bootstrapStores() {
     import('./stats.store'),
     import('./phrases.store'),
     import('./settings.store'),
+    import('./courses.store'),
   ])
 
   await Promise.all([
@@ -31,5 +34,6 @@ export async function bootstrapStores() {
     useStreakStore().loadStreak(),
     useStatsStore().loadStats(),
     usePhrasesStore().loadPhrases(),
+    useCoursesStore().loadCourses(),
   ])
-}
+ }

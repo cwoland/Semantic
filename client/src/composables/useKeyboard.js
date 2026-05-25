@@ -44,6 +44,7 @@ export function useKeyboard() {
         i: 'immersion',
         t: 'stats',
         h: 'dashboard',
+        c: 'course',
       }
       if (map[e.key]) {
         e.preventDefault()

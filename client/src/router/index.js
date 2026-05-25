@@ -10,6 +10,8 @@ const ImmersionView  = () => import('@/views/ImmersionView.vue')
 const StatsView      = () => import('@/views/StatsView.vue')
 const SettingsView   = () => import('@/views/SettingsView.vue')
 const NotFoundView   = () => import('@/views/NotFoundView.vue')
+const OnboardingView = () => import('@/views/OnboardingView.vue')
+const CourseView     = () => import('@/views/CourseView.vue')
 
 const routes = [
   {
@@ -71,6 +73,18 @@ const routes = [
     component: NotFoundView,
     meta: { title: '404 — Semantic' },
   },
+  {
+    path: '/welcome',
+    name: 'onboarding',
+    component: OnboardingView,
+    meta: { title: 'Welcome — Semantic', transition: 'fade' },
+  },
+  {
+    path: '/course',
+    name: 'course',
+    component: CourseView,
+    meta: { title: 'Course — Semantic', transition: 'fade' },
+  },
 ]
 
 const router = createRouter({
@@ -85,6 +99,22 @@ const router = createRouter({
 
 router.afterEach((to) => {
   document.title = to.meta.title ?? 'Semantic'
+})
+
+router.beforeEach(async (to) => {
+  const { useSettingsStore } = await import('@/stores/settings.store')
+  const settings = useSettingsStore()
+
+  const hasLanguage = !!settings.language
+  const isOnboarding = to.name === 'onboarding'
+
+  if (!hasLanguage && !isOnboarding) {
+    return { name: 'onboarding' }
+  }
+
+  if (hasLanguage && isOnboarding) {
+    return { name: 'dashboard' }
+  }
 })
 
 export default router

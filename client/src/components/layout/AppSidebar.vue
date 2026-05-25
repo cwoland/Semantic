@@ -81,6 +81,7 @@ const navItems = [
   { name: 'vocab',     label: 'Vocabulary',  icon: 'ti-book-2',           to: { name: 'vocab' },      hint: 'gv' },
   { name: 'immersion', label: 'Immersion',   icon: 'ti-eye',              to: { name: 'immersion' },  hint: 'gi' },
   { name: 'stats',     label: 'Statistics',  icon: 'ti-chart-line',       to: { name: 'stats' },      hint: 'gt' },
+  { name: 'course',    label: 'Course',      icon: 'ti-road',             to: { name: 'course' },     hint: 'gc' },
 ]
 
 function isActive(item) {
