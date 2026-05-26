@@ -7,8 +7,8 @@ const SETTINGS_KEY = 'obscura_settings'
 export const useSettingsStore = defineStore('settings', () => {
 
   const theme          = ref('dark')
-  const targetLanguage = ref('it')
-  const nativeLanguage = ref('en')
+  const targetLanguage = ref('')
+  const nativeLanguage = ref('')
   const dailyGoal      = ref(20)
   const notifications  = ref(true)
   const offlineMode    = ref(true)
