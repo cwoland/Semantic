@@ -53,7 +53,7 @@ const routes = [
     path: '/immersion',
     name: 'immersion',
     component: ImmersionView,
-    meta: { title: 'Immersion — Semantic', transition: 'slide-up', fullscreen: true },
+    meta: { title: 'Immersion — Semantic', transition: 'slide-up' },
   },
   {
     path: '/stats',
@@ -77,7 +77,7 @@ const routes = [
     path: '/welcome',
     name: 'onboarding',
     component: OnboardingView,
-    meta: { title: 'Welcome — Semantic', transition: 'fade' },
+    meta: { title: 'Welcome — Semantic', transition: 'fade', fullscreen: true },
   },
   {
     path: '/course',
