@@ -27,39 +27,48 @@ export const useSettingsStore = defineStore('settings', () => {
     goImmersion:  'g i',
   })
 
-  async function loadSettings() {
-    const saved = await db.settings.get(SETTINGS_KEY)
-    if (!saved) return
-    Object.entries(saved.value).forEach(([k, v]) => {
-      if (k === 'shortcuts') Object.assign(shortcuts.value, v)
-      else if (k in { theme:1, targetLanguage:1, nativeLanguage:1,
-                      dailyGoal:1, notifications:1, offlineMode:1, autoPlayAudio:1 }) {
-        eval(`${k}.value = v`)
-      }
-    })
-  }
+async function loadSettings() {
+  const saved = await db.settings.get(SETTINGS_KEY)
+  if (!saved) return
 
-  async function save() {
-    await db.settings.put({
-      key: SETTINGS_KEY,
-      value: {
-        theme:          theme.value,
-        targetLanguage: targetLanguage.value,
-        nativeLanguage: nativeLanguage.value,
-        dailyGoal:      dailyGoal.value,
-        notifications:  notifications.value,
-        offlineMode:    offlineMode.value,
-        autoPlayAudio:  autoPlayAudio.value,
-        shortcuts:      shortcuts.value,
-      },
-    })
-  }
+  const d = saved.value
+  if (d.theme          !== undefined) theme.value          = d.theme
+  if (d.targetLanguage !== undefined) targetLanguage.value = d.targetLanguage
+  if (d.nativeLanguage !== undefined) nativeLanguage.value = d.nativeLanguage
+  if (d.dailyGoal      !== undefined) dailyGoal.value      = d.dailyGoal
+  if (d.notifications  !== undefined) notifications.value  = d.notifications
+  if (d.offlineMode    !== undefined) offlineMode.value    = d.offlineMode
+  if (d.autoPlayAudio  !== undefined) autoPlayAudio.value  = d.autoPlayAudio
+  if (d.shortcuts      !== undefined) shortcuts.value      = { ...d.shortcuts }
+}
 
-  watch(
-    [theme, targetLanguage, nativeLanguage, dailyGoal, notifications, offlineMode, autoPlayAudio, shortcuts],
-    () => save(),
-    { deep: true }
-  )
+async function save() {
+  await db.settings.put({
+    key: SETTINGS_KEY,
+    value: {
+      theme:          theme.value,
+      targetLanguage: targetLanguage.value,
+      nativeLanguage: nativeLanguage.value,
+      dailyGoal:      dailyGoal.value,
+      notifications:  notifications.value,
+      offlineMode:    offlineMode.value,
+      autoPlayAudio:  autoPlayAudio.value,
+      shortcuts: { ...shortcuts.value },
+    },
+  })
+}
+
+watch(
+  [theme, targetLanguage, nativeLanguage, dailyGoal,
+   notifications, offlineMode, autoPlayAudio],
+  () => save(),
+  { deep: false }
+)
+
+watch(
+  () => ({ ...shortcuts.value }),
+  () => save(),
+)
 
   return {
     theme, targetLanguage, nativeLanguage,
