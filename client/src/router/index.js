@@ -105,18 +105,17 @@ router.beforeEach(async (to) => {
   const { useSettingsStore } = await import('@/stores/settings.store')
   const settings = useSettingsStore()
 
-  const hasLanguage = !!settings.targetLanguage
+  if (!settings._loaded) {
+    await settings.loadSettings()
+  }
+
+  const hasLanguage  = !!settings.targetLanguage
   const isOnboarding = to.name === 'onboarding'
 
   console.log('GUARD:', { to: to.name, hasLanguage, isOnboarding })
 
-  if (!hasLanguage && !isOnboarding) {
-    return { name: 'onboarding' }
-  }
-
-  if (hasLanguage && isOnboarding) {
-    return { name: 'dashboard' }
-  }
+  if (!hasLanguage && !isOnboarding) return { name: 'onboarding' }
+  if (hasLanguage && isOnboarding)   return { name: 'dashboard' }
 })
 
 export default router
