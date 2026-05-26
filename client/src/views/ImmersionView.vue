@@ -100,7 +100,7 @@ async function saveToDeck(deckId) {
 </script>
 
 <style scoped>
-.immersion-view { padding: var(--space-8); max-width: 860px; display: flex; flex-direction: column; gap: var(--space-6); }
+.immersion-view { padding: var(--space-8); max-width: 860px; width: 100%; display: flex; flex-direction: column; gap: var(--space-6); }
 
 .page-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
 .page-title  { font-size: var(--text-2xl); letter-spacing: -0.02em; }

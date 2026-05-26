@@ -8,6 +8,6 @@
   </div>
 </template>
 <style scoped>
-.page-shell { padding: var(--space-8); max-width: 900px; display: flex; flex-direction: column; gap: var(--space-4); }
+.page-shell { padding: var(--space-8); max-width: 900px; width: 100%; display: flex; flex-direction: column; gap: var(--space-4); }
 h1 { font-size: var(--text-2xl); letter-spacing: -0.02em; }
 </style>

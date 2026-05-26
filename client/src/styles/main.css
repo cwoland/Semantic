@@ -75,9 +75,6 @@ ul, ol {
   padding: var(--space-8);
 }
 
-/* ─── Mobile & Responsive ─────────────────────────────────────────────────── */
-
-/* Tablet — sidebar сжимается */
 @media (max-width: 1024px) {
   :root {
     --sidebar-width: 180px;

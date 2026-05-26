@@ -234,6 +234,7 @@ async function deletePhrase(id) {
 .vocab-view {
   padding: var(--space-8);
   max-width: 900px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);

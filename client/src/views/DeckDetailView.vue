@@ -315,6 +315,7 @@ function intervalLabel(word) {
 .deck-detail {
   padding: var(--space-8);
   max-width: 860px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);

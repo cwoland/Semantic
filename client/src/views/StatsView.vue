@@ -83,7 +83,7 @@ const retentionSeries = computed(() =>
 </script>
 
 <style scoped>
-.stats-view { padding: var(--space-8); max-width: 860px; display: flex; flex-direction: column; gap: var(--space-8); }
+.stats-view { padding: var(--space-8); max-width: 860px; width: 100%; display: flex; flex-direction: column; gap: var(--space-8); }
 .page-header { display: flex; align-items: center; justify-content: space-between; }
 .page-title  { font-size: var(--text-2xl); letter-spacing: -0.02em; }
 

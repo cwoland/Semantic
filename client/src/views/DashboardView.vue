@@ -178,6 +178,7 @@ function goStudy(deckId) {
 <style scoped>
 .dashboard {
   padding: var(--space-8) var(--space-8);
+  width: 100%;
   max-width: 900px;
   display: flex;
   flex-direction: column;
