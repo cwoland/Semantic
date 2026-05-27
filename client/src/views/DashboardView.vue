@@ -4,13 +4,13 @@
       <div>
         <p class="dashboard__greeting text-muted">{{ greeting }}</p>
         <h1 class="dashboard__title">
-          {{ todayGoalMet ? 'Goal met today' : 'Ready to study?' }}
+          {{ todayGoalMet ? t.dash_goal_met : t.dash_ready }}
         </h1>
       </div>
 
       <div class="xp-pill">
         <i class="ti ti-bolt" aria-hidden="true" />
-        <span>{{ todayXP }} XP today</span>
+        <span>{{ todayXP }} {{t.dash_xp_today}}</span>
       </div>
     </header>
 
@@ -22,7 +22,7 @@
         </div>
         <div class="info-card__body">
           <span class="info-card__value">{{ currentStreak }}</span>
-          <span class="info-card__label">day streak</span>
+          <span class="info-card__label">{{t.streak_day}}</span>
         </div>
         <span
           class="streak-status"
@@ -36,7 +36,7 @@
         </div>
         <div class="info-card__body">
           <span class="info-card__value">{{ todayProgressPercent }}%</span>
-          <span class="info-card__label">daily goal</span>
+          <span class="info-card__label">{{t.streak_goal}}</span>
         </div>
         <div class="goal-bar">
           <div class="goal-bar__fill" :style="{ width: todayProgressPercent + '%' }" />
@@ -49,7 +49,7 @@
         </div>
         <div class="info-card__body">
           <span class="info-card__value">{{ totalXP.toLocaleString() }}</span>
-          <span class="info-card__label">total XP</span>
+          <span class="info-card__label">{{t.streak_total_xp}}</span>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
         </div>
         <div class="info-card__body">
           <span class="info-card__value">{{ wordsStore.knownCount }}</span>
-          <span class="info-card__label">words known</span>
+          <span class="info-card__label">{{t.stats_known}}</span>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
       <div class="due-banner__left">
         <i class="ti ti-clock" aria-hidden="true" />
         <div>
-          <p class="due-banner__count">{{ totalDue }} cards due for review</p>
+          <p class="due-banner__count">{{ totalDue }} {{t.dash_due_banner}}</p>
           <p class="due-banner__sub text-muted">Across {{ decksWithDue.length }} deck{{ decksWithDue.length !== 1 ? 's' : '' }}</p>
         </div>
       </div>
@@ -79,15 +79,15 @@
         v-if="decksWithDue[0]"
       >
         <i class="ti ti-player-play" aria-hidden="true" />
-        Start studying
+        {{t.dash_start_studying}}
       </RouterLink>
     </section>
 
     <section class="dashboard__section" aria-label="Your decks">
       <div class="section-header">
-        <h2 class="section-title">Decks</h2>
+        <h2 class="section-title">{{ t.dash_decks }}</h2>
         <RouterLink :to="{ name: 'decks' }" class="section-link">
-          View all <i class="ti ti-arrow-right" aria-hidden="true" />
+          {{ t.dash_view_all }} <i class="ti ti-arrow-right" aria-hidden="true" />
         </RouterLink>
       </div>
 
@@ -102,30 +102,30 @@
 
       <div class="empty-state" v-else>
         <i class="ti ti-stack-2 empty-state__icon" aria-hidden="true" />
-        <p>No decks yet.</p>
+        <p>{{t.dash_no_decks}}</p>
         <RouterLink :to="{ name: 'decks' }" class="btn btn--ghost" style="margin-top: var(--space-3)">
-          Create your first deck
+          {{t.dash_create_first}}
         </RouterLink>
       </div>
 
     </section>
 
     <section class="dashboard__section" aria-label="Quick actions">
-      <h2 class="section-title">Explore</h2>
+      <h2 class="section-title">{{t.dash_explore}}</h2>
       <div class="quick-actions">
         <RouterLink :to="{ name: 'immersion' }" class="quick-action">
           <i class="ti ti-eye" aria-hidden="true" />
-          <span>Immersion</span>
+          <span>{{t.nav_immersion}}</span>
           <p class="text-muted">Read, listen, absorb</p>
         </RouterLink>
         <RouterLink :to="{ name: 'vocab' }" class="quick-action">
           <i class="ti ti-book-2" aria-hidden="true" />
-          <span>Vocabulary</span>
+          <span>{{t.nav_vocab}}</span>
           <p class="text-muted">Browse all words</p>
         </RouterLink>
         <RouterLink :to="{ name: 'stats' }" class="quick-action">
           <i class="ti ti-chart-line" aria-hidden="true" />
-          <span>Statistics</span>
+          <span>{{t.nav_stats}}</span>
           <p class="text-muted">Track your progress</p>
         </RouterLink>
       </div>
@@ -142,11 +142,13 @@ import { useStreakStore } from '@/stores/streak.store'
 import { useWordsStore  } from '@/stores/words.store'
 import { useDecksStore  } from '@/stores/decks.store'
 import DeckCard from '@/components/decks/DeckCard.vue'
+import { useI18n } from '@/composables/useI18n'
 
 const router      = useRouter()
 const streakStore = useStreakStore()
 const wordsStore  = useWordsStore()
 const decksStore  = useDecksStore()
+const { t }       = useI18n()
 
 const currentStreak      = computed(() => streakStore.currentStreak)
 const streakStatus       = computed(() => streakStore.streakStatus)

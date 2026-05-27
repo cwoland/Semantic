@@ -35,7 +35,7 @@ const routes = [
     path: '/decks',
     name: 'decks',
     component: DecksView,
-    meta: { title: 'Decks — Semantic', transition: 'fade', fullscreen: true },
+    meta: { title: 'Decks — Semantic', transition: 'fade' },
   },
   {
     path: '/decks/:id',
@@ -47,31 +47,31 @@ const routes = [
     path: '/vocab',
     name: 'vocab',
     component: VocabView,
-    meta: { title: 'Vocabulary — Semantic', transition: 'fade', fullscreen: true },
+    meta: { title: 'Vocabulary — Semantic', transition: 'fade' },
   },
   {
     path: '/immersion',
     name: 'immersion',
     component: ImmersionView,
-    meta: { title: 'Immersion — Semantic', transition: 'slide-up', fullscreen: true },
+    meta: { title: 'Immersion — Semantic', transition: 'slide-up' },
   },
   {
     path: '/stats',
     name: 'stats',
     component: StatsView,
-    meta: { title: 'Statistics — Semantic', transition: 'fade', fullscreen: true },
+    meta: { title: 'Statistics — Semantic', transition: 'fade' },
   },
   {
     path: '/settings',
     name: 'settings',
     component: SettingsView,
-    meta: { title: 'Settings — Semantic', transition: 'slide-right', fullscreen: true },
+    meta: { title: 'Settings — Semantic', transition: 'slide-right' },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFoundView,
-    meta: { title: '404 — Semantic', fullscreen: true },
+    meta: { title: '404 — Semantic' },
   },
   {
     path: '/welcome',
@@ -83,7 +83,7 @@ const routes = [
     path: '/course',
     name: 'course',
     component: CourseView,
-    meta: { title: 'Course — Semantic', transition: 'fade', fullscreen: true },
+    meta: { title: 'Course — Semantic', transition: 'fade' },
   },
 ]
 

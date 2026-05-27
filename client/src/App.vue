@@ -9,9 +9,10 @@
         </Transition>
       </RouterView>
     </main>
+    <AppBottomBar v-if="!isFullscreen" />
+
     <CommandPalette />
     <ToastStack />
-
   </div>
 </template>
 
@@ -21,13 +22,12 @@ import { useRoute } from 'vue-router'
 import { useKeyboard } from '@/composables/useKeyboard'
 
 import AppSidebar     from '@/components/layout/AppSidebar.vue'
-import CommandPalette from '@/components/layout/CommandPalette.vue'
-import ToastStack     from '@/components/shared/Toast.vue'
+import AppBottomBar   from '@/components/layout/AppBottomBar.vue'
+import CommandPalette from '@/components/shared/CommandPalette.vue'
+import ToastStack     from '@/components/shared/ToastStack.vue'
 
 const route = useRoute()
-
 const isFullscreen = computed(() => !!route.meta.fullscreen)
-
 useKeyboard()
 </script>
 
@@ -44,9 +44,21 @@ useKeyboard()
   min-width: 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 0;
 }
 
 .app--fullscreen .app__main {
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .app__main {
+    padding-bottom: 70px;
+  }
 }
 </style>

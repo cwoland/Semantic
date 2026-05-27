@@ -24,14 +24,14 @@
     <div class="deck-card__stats">
       <span class="deck-stat">
         <i class="ti ti-cards" aria-hidden="true" />
-        {{ deck.totalWords }} words
+        {{ deck.totalWords }} {{ t.decks_words }}
       </span>
       <span class="deck-stat deck-stat--known" v-if="deck.knownCount">
         <i class="ti ti-circle-check" aria-hidden="true" />
-        {{ deck.knownCount }} known
+        {{ deck.knownCount }} {{ t.decks_known }}
       </span>
       <span class="deck-stat deck-stat--faint" v-if="!deck.totalWords">
-        No words yet
+        {{ t.decks_no_words }}
       </span>
     </div>
 
@@ -41,7 +41,7 @@
       @click.prevent="$emit('study', deck.id)"
     >
       <i class="ti ti-player-play" aria-hidden="true" />
-      Study {{ deck.dueCount }} due
+      {{ t.decks_study_due }} {{ deck.dueCount }} {{ t.decks_due }}
     </button>
 
   </RouterLink>
@@ -50,6 +50,10 @@
 <script setup>
 defineProps({ deck: { type: Object, required: true } })
 defineEmits(['study'])
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
+
 </script>
 
 <style scoped>

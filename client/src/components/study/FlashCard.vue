@@ -24,7 +24,7 @@
           <span class="card__lang">{{ card.language?.toUpperCase() }}</span>
 
           <p class="card__hint">
-            press <kbd>Space</kbd> to reveal
+            {{ t.study_reveal }}
           </p>
 
         </div>
@@ -59,6 +59,10 @@
 
 <script setup>
 import { computed } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   card:      { type: Object,  required: true },
@@ -78,10 +82,10 @@ const sourceIcon = computed(() => ({
 }[props.card.sourceType] ?? 'ti-pencil'))
 
 const sourceLabel = computed(() => ({
-  music:  props.card.sourceRef?.track ?? 'Music',
-  movie:  props.card.sourceRef?.title ?? 'Movie',
-  reader: 'Reader',
-}[props.card.sourceType] ?? 'Manual'))
+  music:  props.card.sourceRef?.track ?? t.immersion_music,
+  movie:  props.card.sourceRef?.title ?? t.immersion_movie,
+  reader: t.immersion_reader,
+}[props.card.sourceType] ?? t.vocab_manual))
 </script>
 
 <style scoped>

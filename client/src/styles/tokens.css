@@ -85,3 +85,20 @@
   --z-modal:   100;
   --z-toast:   200;
 }
+
+.theme-dark {
+  --color-bg:            #1A1625;
+  --color-surface:       #221E30;
+  --color-surface-2:     #2D2840;
+  --color-surface-3:     #3A3450;
+  --color-text:          #F0EBF8;
+  --color-text-muted:    #B8AFCC;
+  --color-text-faint:    #7B7290;
+  --color-text-inverse:  #1A1625;
+  --color-border:        rgba(180, 150, 240, 0.1);
+  --color-border-muted:  rgba(180, 150, 240, 0.06);
+  --color-border-strong: rgba(180, 150, 240, 0.18);
+  --color-accent:        #A67DD4;
+  --color-accent-hover:  #B890E0;
+  --color-accent-faint:  rgba(166, 125, 212, 0.12);
+}

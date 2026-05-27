@@ -5,26 +5,26 @@
       <i class="ti ti-circle-check" />
     </div>
 
-    <h2 class="summary__title">Session complete</h2>
+    <h2 class="summary__title">{{ t.study_done }}</h2>
 
     <p class="summary__deck text-muted">{{ deckName }}</p>
 
     <div class="summary__stats">
       <div class="stat-card">
         <span class="stat-card__value">{{ progress.total }}</span>
-        <span class="stat-card__label">Cards reviewed</span>
+        <span class="stat-card__label">{{ t.study_reviewed }}</span>
       </div>
       <div class="stat-card stat-card--good">
         <span class="stat-card__value">{{ progress.correct }}</span>
-        <span class="stat-card__label">Correct</span>
+        <span class="stat-card__label">{{ t.study_correct }}</span>
       </div>
       <div class="stat-card stat-card--again">
         <span class="stat-card__value">{{ progress.incorrect }}</span>
-        <span class="stat-card__label">Needs work</span>
+        <span class="stat-card__label">{{ t.study_needs }}</span>
       </div>
       <div class="stat-card">
         <span class="stat-card__value">{{ retentionDisplay }}%</span>
-        <span class="stat-card__label">Retention</span>
+        <span class="stat-card__label">{{ t.study_retention }}</span>
       </div>
     </div>
 
@@ -36,15 +36,15 @@
     <div class="summary__actions">
       <button class="btn btn--primary" @click="$emit('study-again')">
         <i class="ti ti-refresh" aria-hidden="true" />
-        Study again
+        {{ t.study_again_btn }}
       </button>
       <RouterLink :to="{ name: 'decks' }" class="btn btn--ghost">
         <i class="ti ti-stack-2" aria-hidden="true" />
-        Back to decks
+        {{ t.study_back }}
       </RouterLink>
       <RouterLink :to="{ name: 'stats' }" class="btn btn--ghost">
         <i class="ti ti-chart-line" aria-hidden="true" />
-        View stats
+        {{ t.study_stats }}
       </RouterLink>
     </div>
 
@@ -54,6 +54,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useStreakStore } from '@/stores/streak.store'
+import { computed } from 'vue'
+import { useStreakStore } from '@/stores/streak.store'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   progress: { type: Object, required: true },

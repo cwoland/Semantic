@@ -64,11 +64,13 @@ import { useRoute } from 'vue-router'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useStreakStore }   from '@/stores/streak.store'
 import { useCommandPalette } from '@/composables/useCommandPalette'
+import { useI18n } from '@/composables/useI18n'
 
 const route        = useRoute()
 const settings     = useSettingsStore()
 const streakStore  = useStreakStore()
 const palette      = useCommandPalette()
+const { t }        = useI18n()
 
 const targetLang         = computed(() => settings.targetLanguage)
 const currentStreak      = computed(() => streakStore.currentStreak)
@@ -76,12 +78,12 @@ const streakStatus       = computed(() => streakStore.streakStatus)
 const todayProgressPercent = computed(() => streakStore.todayProgressPercent)
 
 const navItems = [
-  { name: 'dashboard', label: 'Dashboard',  icon: 'ti-layout-dashboard', to: { name: 'dashboard' },  hint: 'gh' },
-  { name: 'decks',     label: 'Decks',       icon: 'ti-stack-2',          to: { name: 'decks' },      hint: 'gd' },
-  { name: 'vocab',     label: 'Vocabulary',  icon: 'ti-book-2',           to: { name: 'vocab' },      hint: 'gv' },
-  { name: 'immersion', label: 'Immersion',   icon: 'ti-eye',              to: { name: 'immersion' },  hint: 'gi' },
-  { name: 'stats',     label: 'Statistics',  icon: 'ti-chart-line',       to: { name: 'stats' },      hint: 'gt' },
-  { name: 'course',    label: 'Course',      icon: 'ti-road',             to: { name: 'course' },     hint: 'gc' },
+  { name: 'dashboard', label: t.value.nav_dashboard,  icon: 'ti-layout-dashboard',  to: { name: 'dashboard' },  hint: 'gh' },
+  { name: 'decks',     label: t.value.nav_decks,       icon: 'ti-stack-2',          to: { name: 'decks' },      hint: 'gd' },
+  { name: 'vocab',     label: t.value.nav_vocab,  icon: 'ti-book-2',                to: { name: 'vocab' },      hint: 'gv' },
+  { name: 'immersion', label: t.value.nav_immersion,   icon: 'ti-eye',              to: { name: 'immersion' },  hint: 'gi' },
+  { name: 'stats',     label: t.value.nav_stats,  icon: 'ti-chart-line',            to: { name: 'stats' },      hint: 'gt' },
+  { name: 'course',    label: t.value.nav_course,      icon: 'ti-road',             to: { name: 'course' },     hint: 'gc' },
 ]
 
 function isActive(item) {

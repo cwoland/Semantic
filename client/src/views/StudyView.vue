@@ -37,10 +37,10 @@
       <Transition name="fade">
         <div v-if="phase === 'empty'" class="study-view__center">
           <i class="ti ti-circle-check state-icon state-icon--good" aria-hidden="true" />
-          <h2>All caught up</h2>
-          <p class="text-muted">No cards due for review right now.</p>
+          <h2>{{ t.study_caught_up }}</h2>
+          <p class="text-muted">{{ t.study_no_due }}</p>
           <RouterLink :to="{ name: 'decks' }" class="btn btn--ghost" style="margin-top: var(--space-4)">
-            Back to decks
+            {{ t.study_back }}
           </RouterLink>
         </div>
       </Transition>
@@ -68,14 +68,14 @@
 
           <div class="study-view__shortcuts" v-if="phase === 'question'">
             <span class="text-faint" style="font-size: var(--text-xs);">
-              <kbd>Space</kbd> reveal &nbsp;·&nbsp; <kbd>Esc</kbd> exit
+              <kbd>Space</kbd> {{ t.study_reveal }} &nbsp;·&nbsp; <kbd>Esc</kbd> exit
             </span>
           </div>
 
           <div class="study-view__shortcuts" v-if="phase === 'answer'">
             <span class="text-faint" style="font-size: var(--text-xs);">
-              <kbd>1</kbd> again &nbsp;·&nbsp; <kbd>2</kbd> hard &nbsp;·&nbsp;
-              <kbd>3</kbd> good &nbsp;·&nbsp; <kbd>4</kbd> easy
+              <kbd>1</kbd> {{ t.study_again }} &nbsp;·&nbsp; <kbd>2</kbd> {{ t.study_hard }} &nbsp;·&nbsp;
+              <kbd>3</kbd> {{ t.study_good }} &nbsp;·&nbsp; <kbd>4</kbd> {{ t.study_easy }}
             </span>
           </div>
 
@@ -104,6 +104,7 @@ import { useRoute } from 'vue-router'
 import { useStudyStore } from '@/stores/study.store'
 import { useDecksStore } from '@/stores/decks.store'
 import { useToast }      from '@/composables/useToast'
+import { useI18n }       from '@/composables/useI18n'
 
 import FlashCard      from '@/components/study/FlashCard.vue'
 import RatingBar      from '@/components/study/RatingBar.vue'
@@ -113,6 +114,7 @@ const route      = useRoute()
 const studyStore = useStudyStore()
 const decksStore = useDecksStore()
 const toast      = useToast()
+const { t }      = useI18n()
 
 const deckId     = computed(() => Number(route.params.deckId))
 const activeDeck = computed(() => decksStore.deckById(deckId.value))

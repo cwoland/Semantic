@@ -1,7 +1,7 @@
 <template>
   <div class="stats-view">
     <header class="page-header">
-      <h1 class="page-title">Statistics</h1>
+      <h1 class="page-title">{{ t.stats_title }}</h1>
       <StreakBadge
         :count="streakStore.currentStreak"
         :status="streakStore.streakStatus"
@@ -11,38 +11,38 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-card__value">{{ statsStore.retentionRate }}%</span>
-        <span class="stat-card__label">Retention rate</span>
+        <span class="stat-card__label">{{ t.stats_retention }}</span>
       </div>
       <div class="stat-card">
         <span class="stat-card__value">{{ wordsStore.knownCount }}</span>
-        <span class="stat-card__label">Words known</span>
+        <span class="stat-card__label">{{ t.stats_known }}</span>
       </div>
       <div class="stat-card">
         <span class="stat-card__value">{{ statsStore.avgCardsPerDay }}</span>
-        <span class="stat-card__label">Cards / day</span>
+        <span class="stat-card__label">{{ t.stats_per_day }}</span>
       </div>
       <div class="stat-card">
         <span class="stat-card__value">{{ statsStore.totalStudyMinutes }}</span>
-        <span class="stat-card__label">Minutes studied</span>
+        <span class="stat-card__label">{{ t.stats_minutes }}</span>
       </div>
     </div>
 
     <div class="stats-section">
-      <h2 class="section-title">Retention</h2>
+      <h2 class="section-title">{{ t.stats_retention }}</h2>
       <div class="chart-card">
         <RetentionChart :data="retentionSeries" />
       </div>
     </div>
 
     <div class="stats-section">
-      <h2 class="section-title">Activity</h2>
+      <h2 class="section-title">{{ t.stats_activity }}</h2>
       <div class="chart-card">
         <Heatmap :data="statsStore.heatmapData" />
       </div>
     </div>
 
     <div class="stats-section">
-      <h2 class="section-title">Decks</h2>
+      <h2 class="section-title">{{ t.stats_decks }}</h2>
       <div class="deck-breakdown">
         <div
           v-for="deck in decksStore.deckProgress"
@@ -64,6 +64,7 @@ import { useStatsStore }  from '@/stores/stats.store'
 import { useStreakStore }  from '@/stores/streak.store'
 import { useWordsStore }  from '@/stores/words.store'
 import { useDecksStore }  from '@/stores/decks.store'
+import { useI18n }        from '@/composables/useI18n'
 import StreakBadge    from '@/components/shared/StreakBadge.vue'
 import Heatmap        from '@/components/stats/Heatmap.vue'
 import RetentionChart from '@/components/stats/RetentionChart.vue'
@@ -73,6 +74,7 @@ const statsStore  = useStatsStore()
 const streakStore = useStreakStore()
 const wordsStore  = useWordsStore()
 const decksStore  = useDecksStore()
+const { t }       = useI18n()
 
 const retentionSeries = computed(() =>
   statsStore.dailyStats.map(d => ({

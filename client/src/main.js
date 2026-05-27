@@ -16,6 +16,15 @@ async function init() {
 
     await bootstrapStores()
 
+    const { useSettingsStore } = await import('./stores/settings.store')
+    const settings = useSettingsStore()
+    const theme = settings.theme
+    if (theme === dark) {
+        documentElement.classList.add('theme-dark')
+    } else if (theme === 'light') {
+        documentElement.classList.add('theme-light')
+    }
+
     app.mount('#app')
 }
 

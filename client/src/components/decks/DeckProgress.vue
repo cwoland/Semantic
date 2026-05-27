@@ -22,6 +22,9 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   words: { type: Array, required: true },
@@ -36,10 +39,10 @@ const segments = computed(() => {
     known:    props.words.filter(w => w.status === 'known').length,
   }
   return [
-    { status: 'new',      label: 'New',      count: counts.new,      pct: counts.new      / total * 100 },
-    { status: 'learning', label: 'Learning', count: counts.learning, pct: counts.learning / total * 100 },
-    { status: 'review',   label: 'Review',   count: counts.review,   pct: counts.review   / total * 100 },
-    { status: 'known',    label: 'Known',    count: counts.known,    pct: counts.known    / total * 100 },
+    { status: 'new',      label: t.vocab_new,      count: counts.new,      pct: counts.new      / total * 100 },
+    { status: 'learning', label: t.vocab_learning, count: counts.learning, pct: counts.learning / total * 100 },
+    { status: 'review',   label: t.vocab_review,   count: counts.review,   pct: counts.review   / total * 100 },
+    { status: 'known',    label: t.vocab_known,    count: counts.known,    pct: counts.known    / total * 100 },
   ].filter(s => s.count > 0)
 })
 </script>

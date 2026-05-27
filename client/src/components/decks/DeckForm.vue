@@ -3,28 +3,28 @@
     <div class="deck-form" role="dialog" :aria-label="isEdit ? 'Edit deck' : 'New deck'">
 
       <div class="deck-form__header">
-        <h2>{{ isEdit ? 'Edit deck' : 'New deck' }}</h2>
-        <button class="icon-btn" @click="$emit('close')" aria-label="Close">
+        <h2>{{ isEdit ? t.form_edit_deck_title : t.decks_new }}</h2>
+        <button class="icon-btn" @click="$emit('close')" :aria-label="t.common_cancel">
           <i class="ti ti-x" />
         </button>
       </div>
 
       <div class="deck-form__body">
         <label class="form-field">
-          <span class="form-field__label">Deck name</span>
+          <span class="form-field__label">{{ t.form_deck_name_label }}</span>
           <input
             v-model="form.name"
             class="form-input"
-            placeholder="e.g. Italian — B2 Vocabulary"
+            :placeholder="t.form_deck_name_placeholder"
             autofocus
             @keydown.enter="submit"
           />
         </label>
 
         <label class="form-field">
-          <span class="form-field__label">Target language</span>
+          <span class="form-field__label">{{ t.form_deck_language_label }}</span>
           <select v-model="form.language" class="form-input form-select">
-            <option value="">Select language</option>
+            <option value="">{{ t.form_deck_language_placeholder }}</option>
             <option v-for="lang in LANGUAGES" :key="lang.code" :value="lang.code">
               {{ lang.flag }} {{ lang.name }}
             </option>
@@ -32,30 +32,30 @@
         </label>
 
         <label class="form-field">
-          <span class="form-field__label">Description <span class="form-field__opt">(optional)</span></span>
+          <span class="form-field__label">{{ t.form_deck_description_label }} <span class="form-field__opt">{{ t.form_optional }}</span></span>
           <input
             v-model="form.description"
             class="form-input"
-            placeholder="What is this deck for?"
+            :placeholder="t.form_deck_description_placeholder"
           />
         </label>
 
         <div class="form-row">
           <label class="form-field">
-            <span class="form-field__label">New cards / day</span>
+            <span class="form-field__label">{{ t.form_deck_daily_new_label }}</span>
             <input v-model.number="form.dailyNewLimit" type="number" min="1" max="200" class="form-input" />
           </label>
           <label class="form-field">
-            <span class="form-field__label">Reviews / day</span>
+            <span class="form-field__label">{{ t.form_deck_daily_reviews_label }}</span>
             <input v-model.number="form.dailyReviewLimit" type="number" min="1" max="999" class="form-input" />
           </label>
         </div>
       </div>
 
       <div class="deck-form__footer">
-        <button class="btn btn--ghost" @click="$emit('close')">Cancel</button>
+        <button class="btn btn--ghost" @click="$emit('close')">{{ t.common_cancel }}</button>
         <button class="btn btn--primary" @click="submit" :disabled="!form.name.trim()">
-          {{ isEdit ? 'Save changes' : 'Create deck' }}
+          {{ isEdit ? t.common_save : t.form_create_deck }}
         </button>
       </div>
 
@@ -65,6 +65,10 @@
 
 <script setup>
 import { reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const LANGUAGES = [
   { code: 'it', name: 'Italian',    flag: '🇮🇹' },

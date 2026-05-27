@@ -3,7 +3,7 @@
 
     <header class="page-header">
       <div>
-        <h1 class="page-title">Vocabulary</h1>
+        <h1 class="page-title">{{ t.vocab_title }}</h1>
         <p class="text-muted" style="font-size: var(--text-sm); margin-top: var(--space-1)">
           {{ wordsStore.totalCount }} words · {{ wordsStore.knownCount }} known
         </p>
@@ -17,8 +17,8 @@
         <input
           v-model="searchQuery"
           class="search-input"
-          placeholder="Search words or translations…"
-          aria-label="Search vocabulary"
+          :placeholder="t.vocab_search"
+          :aria-label="t.vocab_search"
         />
         <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''" aria-label="Clear">
           <i class="ti ti-x" />
@@ -40,16 +40,16 @@
         </button>
       </div>
 
-      <select v-model="activeSource" class="filter-select" aria-label="Filter by source">
-        <option value="all">All sources</option>
-        <option value="manual">Manual</option>
-        <option value="reader">Reader</option>
-        <option value="music">Music</option>
-        <option value="movie">Movie</option>
+      <select v-model="activeSource" class="filter-select" :aria-label="t.vocab_sources">
+        <option value="all">{{ t.vocab_sources }}</option>
+        <option value="manual">{{ t.vocab_manual }}</option>
+        <option value="reader">{{ t.vocab_reader }}</option>
+        <option value="music">{{ t.vocab_music }}</option>
+        <option value="movie">{{ t.vocab_movie }}</option>
       </select>
 
-      <select v-model="activeDeck" class="filter-select" aria-label="Filter by deck">
-        <option value="all">All decks</option>
+      <select v-model="activeDeck" class="filter-select" :aria-label="t.vocab_all_decks">
+        <option value="all">{{ t.vocab_all_decks }}</option>
         <option v-for="d in decksStore.decks" :key="d.id" :value="d.id">
           {{ d.name }}
         </option>
@@ -63,7 +63,7 @@
         :class="{ 'section-btn--active': view === 'words' }"
         @click="view = 'words'"
       >
-        <i class="ti ti-cards" /> Words
+        <i class="ti ti-cards" /> {{ t.vocab_words }}
         <span class="filter-tab__count">{{ wordsStore.totalCount }}</span>
       </button>
       <button
@@ -71,7 +71,7 @@
         :class="{ 'section-btn--active': view === 'phrases' }"
         @click="view = 'phrases'"
       >
-        <i class="ti ti-quote" /> Phrase bank
+        <i class="ti ti-quote" /> {{ t.vocab_phrases }}
         <span class="filter-tab__count">{{ phrasesStore.phrases.length }}</span>
       </button>
     </div>
@@ -110,7 +110,7 @@
       <div class="empty-state" v-else>
         <i class="ti ti-cards empty-state__icon" />
         <p class="text-muted">
-          {{ searchQuery ? `No words match "${searchQuery}"` : 'No words yet' }}
+          {{ searchQuery ? `No words match "${searchQuery}"` : t.decks_no_words }}
         </p>
       </div>
     </div>
@@ -146,9 +146,9 @@
 
       <div class="empty-state" v-else>
         <i class="ti ti-quote empty-state__icon" />
-        <p class="text-muted">No saved phrases yet — capture them in Immersion mode.</p>
+        <p class="text-muted">{{ t.vocab_no_phrases }}</p>
         <RouterLink :to="{ name: 'immersion' }" class="btn btn--ghost" style="margin-top: var(--space-3)">
-          Go to Immersion
+          {{ t.vocab_go_immersion }}
         </RouterLink>
       </div>
     </div>
@@ -162,12 +162,14 @@ import { useWordsStore }   from '@/stores/words.store'
 import { useDecksStore }   from '@/stores/decks.store'
 import { usePhrasesStore } from '@/stores/phrases.store'
 import { useToast }        from '@/composables/useToast'
+import { useI18n }         from '@/composables/useI18n'
 import { daysUntilReview } from '@/utils/sm2'
 
 const wordsStore   = useWordsStore()
 const decksStore   = useDecksStore()
 const phrasesStore = usePhrasesStore()
 const toast        = useToast()
+const { t }        = useI18n()
 
 const view         = ref('words')
 const searchQuery  = ref('')
@@ -176,11 +178,11 @@ const activeSource = ref('all')
 const activeDeck   = ref('all')
 
 const statusTabs = computed(() => [
-  { value: 'all',      label: 'All',      count: wordsStore.words.length },
-  { value: 'new',      label: 'New',      count: wordsStore.byStatus.new.length },
-  { value: 'learning', label: 'Learning', count: wordsStore.byStatus.learning.length },
-  { value: 'review',   label: 'Review',   count: wordsStore.byStatus.review.length },
-  { value: 'known',    label: 'Known',    count: wordsStore.byStatus.known.length },
+  { value: 'all',      label: t.vocab_all,      count: wordsStore.words.length },
+  { value: 'new',      label: t.vocab_new,      count: wordsStore.byStatus.new.length },
+  { value: 'learning', label: t.vocab_learning, count: wordsStore.byStatus.learning.length },
+  { value: 'review',   label: t.vocab_review,   count: wordsStore.byStatus.review.length },
+  { value: 'known',    label: t.vocab_known,    count: wordsStore.byStatus.known.length },
 ])
 
 const filteredWords = computed(() => {

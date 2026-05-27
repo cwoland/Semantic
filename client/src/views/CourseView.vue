@@ -1,11 +1,11 @@
 <template>
   <div class="course-view">
     <div v-if="!hasCourse" class="course-setup">
-      <h1 class="page-title">Your Learning Path</h1>
-      <p class="text-muted">Set up a structured course for {{ langName }}</p>
+      <h1 class="page-title">{{ t.course-title}}</h1>
+      <p class="text-muted">{{ t.course_setup_sub }} {{ langName }}</p>
 
       <div class="level-picker">
-        <h2 class="level-picker__title">Choose your current level</h2>
+        <h2 class="level-picker__title">{{ t.course_pick_level }}</h2>
         <div class="level-grid">
           <button
             v-for="level in LEVELS"
@@ -27,7 +27,7 @@
       >
         <div class="spinner" v-if="installing" />
         <i class="ti ti-download" v-else />
-        {{ installing ? 'Setting up…' : `Start ${langName} course` }}
+        {{ installing ? t.course_setting_up : `${t.course_start} ${langName}` }}
       </button>
     </div>
     <div v-else>
@@ -36,12 +36,12 @@
           <p class="text-muted" style="font-size: var(--text-sm)">
             {{ currentCourse.name }}
           </p>
-          <h1 class="page-title">Learning Path</h1>
+          <h1 class="page-title">{{t.course_title}}</h1>
         </div>
         <div class="course-meta">
           <span class="level-badge">Up to {{ currentCourse.maxLevel }}</span>
           <span class="text-faint" style="font-size: var(--text-xs)">
-            {{ completedLessons }} / {{ totalLessons }} lessons
+            {{ completedLessons }} / {{ totalLessons }} {{t.course_lessons}}
           </span>
         </div>
       </header>
@@ -53,7 +53,7 @@
           />
         </div>
         <span class="text-faint" style="font-size: var(--text-xs)">
-          {{ overallProgress }}% complete
+          {{ overallProgress }}% {{t.course_complete}}
         </span>
       </div>
       <div class="units-list">
@@ -110,7 +110,7 @@
                 <div class="lesson-row__content">
                   <span class="lesson-row__title">{{ lesson.title }}</span>
                   <span class="lesson-row__desc text-faint">
-                    {{ lesson.description }} · {{ lesson.words.length }} words
+                    {{ lesson.description }} · {{ lesson.words.length }} {{t.vocab_words}}
                   </span>
                 </div>
 
@@ -120,9 +120,9 @@
                   :disabled="coursesStore.lessonStatus(lesson.id) === 'completed'"
                 >
                   {{
-                    coursesStore.lessonStatus(lesson.id) === 'completed' ? 'Done' :
-                    coursesStore.lessonStatus(lesson.id) === 'in-progress' ? 'Continue' :
-                    'Start'
+                    coursesStore.lessonStatus(lesson.id) === 'completed' ? t.course_done :
+                    coursesStore.lessonStatus(lesson.id) === 'in-progress' ? t.course_continue :
+                    t.course_start_lesson
                   }}
                 </button>
               </div>
@@ -143,6 +143,7 @@ import { useCoursesStore } from '@/stores/courses.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useToast }         from '@/composables/useToast'
 import { LEVELS, LEVEL_DESCRIPTIONS, COURSE_TEMPLATES } from '@/data/courses'
+import { useI18n } from '@/composables/useI18n'
 
 const router        = useRouter()
 const coursesStore  = useCoursesStore()
@@ -152,6 +153,8 @@ const toast         = useToast()
 const selectedLevel = ref('A1')
 const installing    = ref(false)
 const openUnits     = ref(new Set())
+
+const { t } = useI18n()
 
 const lang    = computed(() => settingsStore.targetLanguage)
 const langName = computed(() => {
@@ -166,15 +169,10 @@ const hasCourse = computed(() =>
 )
 
 const currentCourse = computed(() =>
-  coursesStore.courses.find(c => c.language === lang.value)
+  courses.value.find(c => c.language === lang.value)
 )
 
-const units = computed(() => {
-  if (!currentCourse.value) return []
-  return coursesStore.courses
-    .filter(c => c.language === lang.value)
-    .flatMap(c => c.units ?? [])
-})
+const units = computed(() => currentCourse.value?.units ?? [])
 
 const totalLessons = computed(() =>
   units.value.reduce((s, u) => s + (u.lessons?.length ?? 0), 0)
@@ -196,7 +194,7 @@ const overallProgress = computed(() =>
 onMounted(async () => {
   await coursesStore.loadCourses()
   if (units.value.length) {
-    openUnits.value.add(units.value[0].id)
+    openUnits.value = new Set([units.value[0].id])
   }
 })
 

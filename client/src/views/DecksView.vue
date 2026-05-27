@@ -3,12 +3,12 @@
 
     <header class="page-header">
       <div>
-        <h1 class="page-title">Decks</h1>
+        <h1 class="page-title">{{ t.decks_title }}</h1>
         <p class="page-sub text-muted">{{ decksStore.decks.length }} deck{{ decksStore.decks.length !== 1 ? 's' : '' }}</p>
       </div>
       <button class="btn btn--primary" @click="showForm = true">
         <i class="ti ti-plus" aria-hidden="true" />
-        New deck
+        {{ t.decks_new }}
       </button>
     </header>
 
@@ -20,19 +20,19 @@
         @study="goStudy"
       />
 
-      <button class="deck-add-card" @click="showForm = true" aria-label="Create new deck">
+      <button class="deck-add-card" @click="showForm = true" :aria-label="t.decks_new">
         <i class="ti ti-plus" aria-hidden="true" />
-        <span>New deck</span>
+        <span>{{ t.decks_new }}</span>
       </button>
     </div>
 
     <div class="empty-state" v-else>
       <i class="ti ti-stack-2 empty-state__icon" aria-hidden="true" />
-      <h2>No decks yet</h2>
-      <p class="text-muted">Create a deck to start building your vocabulary.</p>
+      <h2>{{ t.decks_empty_title }}</h2>
+      <p class="text-muted">{{ t.decks_empty_sub }}</p>
       <button class="btn btn--primary" @click="showForm = true" style="margin-top: var(--space-4)">
         <i class="ti ti-plus" aria-hidden="true" />
-        Create first deck
+        {{ t.decks_add }}
       </button>
     </div>
 
@@ -54,12 +54,14 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDecksStore } from '@/stores/decks.store'
 import { useToast }      from '@/composables/useToast'
+import { useI18n }       from '@/composables/useI18n'
 import DeckCard from '@/components/decks/DeckCard.vue'
 import DeckForm from '@/components/decks/DeckForm.vue'
 
 const router      = useRouter()
 const decksStore  = useDecksStore()
 const toast       = useToast()
+const { t }       = useI18n()
 
 const showForm    = ref(false)
 const deckProgress = computed(() => decksStore.deckProgress)

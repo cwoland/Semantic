@@ -13,6 +13,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const notifications  = ref(true)
   const offlineMode    = ref(true)
   const autoPlayAudio  = ref(false)
+  const appLocale      = ref('en')
 
   const shortcuts = ref({
     showAnswer:   'Space',
@@ -40,6 +41,7 @@ async function loadSettings() {
   if (d.offlineMode    !== undefined) offlineMode.value    = d.offlineMode
   if (d.autoPlayAudio  !== undefined) autoPlayAudio.value  = d.autoPlayAudio
   if (d.shortcuts      !== undefined) shortcuts.value      = { ...d.shortcuts }
+  if (d.apLocale       !== undefined) appLocale.value      = d.appLocale
 }
 
 async function save() {
@@ -54,6 +56,7 @@ async function save() {
       offlineMode:    offlineMode.value,
       autoPlayAudio:  autoPlayAudio.value,
       shortcuts: { ...shortcuts.value },
+      appLocale: appLocale.value,
     },
   })
 }
@@ -90,11 +93,12 @@ async function loadSettings() {
   _loaded.value = true
 }
 
+
   return {
     theme, targetLanguage, nativeLanguage,
     dailyGoal, notifications, offlineMode, autoPlayAudio, shortcuts,
     loadSettings, save,
     _loaded,
-    theme, targetLanguage, nativeLanguage,
+    theme, targetLanguage, nativeLanguage, appLocale,
   }
 })

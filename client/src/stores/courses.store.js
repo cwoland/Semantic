@@ -39,7 +39,28 @@ export const useCoursesStore = defineStore('courses', () => {
 
   async function loadCourses() {
     loading.value = true
-    courses.value = await db.courses.toArray()
+    
+    const rawCourses = await db.courses.toArray()
+
+    const enriched = await Promise.all(
+      rawCourses.map(async (course) => {
+        const units = await db.units
+        .where('courseId').equals(unit.id)
+        .sortBy('order')
+
+      const unitsWithLessons = await Promise.all(
+        units.map(async (unit) => {
+          const lessons = await db.lessons
+          .where('unitId').equals(unit.id)
+          .sortBy('order')
+        return { ...unit, lessons }
+        })
+      )
+      return { ...course, units: unitsWithLessons }
+      })
+    )
+
+    courses.value = enriched
 
     const progress = await db.lessonProgress.toArray()
     lessonProgress.value = Object.fromEntries(

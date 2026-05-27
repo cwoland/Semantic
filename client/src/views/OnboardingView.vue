@@ -1,9 +1,21 @@
 <template>
   <div class="onboarding">
-
     <div class="onboarding__card">
-      <h1 class="onboarding__title">Semantic.</h1>
-      <p class="onboarding__sub">What would you like to learn?</p>
+
+      <div class="app-lang-row">
+        <button
+          v-for="loc in LOCALES"
+          :key="loc.code"
+          class="app-lang-btn"
+          :class="{ 'app-lang-btn--active': appLocale === loc.code }"
+          @click="setAppLocale(loc.code)"
+        >
+          {{ loc.flag }} {{ loc.name }}
+        </button>
+      </div>
+
+      <h1 class="onboarding__title">{{ t.onboarding_title }}</h1>
+      <p class="onboarding__sub">{{ t.onboarding_sub }}</p>
 
       <div class="lang-grid">
         <button
@@ -20,7 +32,7 @@
       </div>
 
       <div class="onboarding__native">
-        <label class="form-label">Your native language</label>
+        <label class="form-label">{{ t.onboarding_native }}</label>
         <select v-model="nativeLang" class="form-select">
           <option v-for="l in LANGUAGES" :key="l.code" :value="l.code">
             {{ l.flag }} {{ l.name }}
@@ -33,11 +45,11 @@
         :disabled="!selected"
         @click="confirm"
       >
-        Start learning {{ selectedLang?.name }}
+        {{ t.onboarding_cta }} {{ selectedLang?.name }}
         <i class="ti ti-arrow-right" />
       </button>
-    </div>
 
+    </div>
   </div>
 </template>
 
@@ -45,13 +57,17 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSettingsStore } from '@/stores/settings.store'
+import { useI18n } from '@/composables/useI18n'
+import { LOCALES, getTranslations } from '@/i18n'
 import { COURSE_TEMPLATES } from '@/data/courses'
 
-const router       = useRouter()
+const router        = useRouter()
 const settingsStore = useSettingsStore()
+const { t }         = useI18n()
 
 const selected   = ref('')
 const nativeLang = ref('en')
+const appLocale  = ref(settingsStore.appLocale ?? 'en')
 
 const LANGUAGES = [
   { code: 'it', name: 'Italian',    native: 'Italiano',   flag: '🇮🇹' },
@@ -71,21 +87,58 @@ const selectedLang = computed(() =>
   LANGUAGES.find(l => l.code === selected.value)
 )
 
+function setAppLocale(code) {
+  appLocale.value = code
+  settingsStore.appLocale = code
+  settingsStore.save()
+}
+
 async function confirm() {
   if (!selected.value) return
   settingsStore.targetLanguage = selected.value
   settingsStore.nativeLanguage = nativeLang.value
+  settingsStore.appLocale      = appLocale.value
   await settingsStore.save()
+
   const templates = COURSE_TEMPLATES.map(t => t.language)
-  if (templates.includes(selected.value)) {
-    router.push({ name: 'course' })
-  } else {
-    router.push({ name: 'dashboard' })
-  }
+  router.push({
+    name: templates.includes(selected.value) ? 'course' : 'dashboard'
+  })
 }
 </script>
 
 <style scoped>
+
+.app-lang-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  justify-content: center;
+  margin-bottom: var(--space-2);
+}
+
+.app-lang-btn {
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  cursor: pointer;
+  transition: all 140ms;
+}
+
+.app-lang-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-muted);
+}
+
+.app-lang-btn--active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-faint);
+  color: var(--color-accent);
+}
+
 .onboarding {
   min-height: 100vh;
   width: 100%;

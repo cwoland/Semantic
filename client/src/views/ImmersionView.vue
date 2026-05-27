@@ -1,7 +1,7 @@
 <template>
   <div class="immersion-view">
     <header class="page-header">
-      <h1 class="page-title">Immersion</h1>
+      <h1 class="page-title">{{ t.immersion_title }}</h1>
       <div class="page-header__actions">
         <div class="timer" v-if="immersionStore.isActive">
           <i class="ti ti-clock" />
@@ -13,7 +13,7 @@
           @click="showSaveModal = true"
         >
           <i class="ti ti-bookmark" />
-          Save {{ immersionStore.pendingWords.length }} words
+          {{ t.immersion_save }} {{ immersionStore.pendingWords.length }} words
         </button>
       </div>
     </header>
@@ -36,14 +36,14 @@
       <LyricsPanel  v-if="activeMode === 'music'"  />
       <div v-if="activeMode === 'movie'" class="coming-soon">
         <i class="ti ti-movie text-faint" style="font-size:32px" />
-        <p class="text-muted">Movie subtitle integration coming soon.</p>
+        <p class="text-muted">{{ t.immersion_movie_soon }}</p>
       </div>
     </div>
 
-    <Modal v-model="showSaveModal" title="Save captured words">
+    <Modal v-model="showSaveModal" :title="t.immersion_save_words">
       <div class="save-modal__body">
         <p class="text-muted" style="font-size: var(--text-sm); margin-bottom: var(--space-4)">
-          Choose a deck to add {{ immersionStore.pendingWords.length }} words to:
+          {{ t.immersion_choose_deck }} {{ immersionStore.pendingWords.length }} words to:
         </p>
         <div class="deck-options">
           <button
@@ -64,10 +64,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useImmersionStore } from '@/stores/immersion.store'
 import { useWordsStore }     from '@/stores/words.store'
 import { useDecksStore }     from '@/stores/decks.store'
 import { useToast }          from '@/composables/useToast'
+import { useI18n }           from '@/composables/useI18n'
 
 import Reader      from '@/components/immersion/Reader.vue'
 import LyricsPanel from '@/components/immersion/LyricsPanel.vue'
@@ -77,14 +79,16 @@ const immersionStore = useImmersionStore()
 const wordsStore     = useWordsStore()
 const decksStore     = useDecksStore()
 const toast          = useToast()
+const { t }          = useI18n()
 
 const activeMode   = ref('reader')
 const showSaveModal = ref(false)
 
-const modes = [
-  { value: 'reader', label: 'Reader',  icon: 'ti-book-2' },
-  { value: 'music',  label: 'Music',   icon: 'ti-music'  },
-  { value: 'movie',  label: 'Movie',   icon: 'ti-movie'  },
+const modes = computed(() => [
+  { value: 'reader', label: t.immersion_reader,  icon: 'ti-book-2' },
+  { value: 'music',  label: t.immersion_music,   icon: 'ti-music'  },
+  { value: 'movie',  label: t.immersion_movie,   icon: 'ti-movie'  },
+])
 ]
 
 function switchMode(mode) {

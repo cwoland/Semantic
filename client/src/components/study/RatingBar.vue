@@ -17,6 +17,11 @@
 <script setup>
 import { computed } from 'vue'
 import { sm2, daysUntilReview } from '@/utils/sm2'
+import { computed } from 'vue'
+import { sm2, daysUntilReview } from '@/utils/sm2'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   card: { type: Object, required: true },
@@ -26,10 +31,10 @@ defineEmits(['rate'])
 
 const buttons = computed(() => {
   const ratings = [
-    { quality: 1, key: 'again', label: 'Again' },
-    { quality: 2, key: 'hard',  label: 'Hard'  },
-    { quality: 4, key: 'good',  label: 'Good'  },
-    { quality: 5, key: 'easy',  label: 'Easy'  },
+    { quality: 1, key: 'again', label: t.study_again },
+    { quality: 2, key: 'hard',  label: t.study_hard  },
+    { quality: 4, key: 'good',  label: t.study_good  },
+    { quality: 5, key: 'easy',  label: t.study_easy  },
   ]
 
   return ratings.map(r => {
