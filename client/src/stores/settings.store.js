@@ -28,22 +28,6 @@ export const useSettingsStore = defineStore('settings', () => {
     goImmersion:  'g i',
   })
 
-async function loadSettings() {
-  const saved = await db.settings.get(SETTINGS_KEY)
-  if (!saved) return
-
-  const d = saved.value
-  if (d.theme          !== undefined) theme.value          = d.theme
-  if (d.targetLanguage !== undefined) targetLanguage.value = d.targetLanguage
-  if (d.nativeLanguage !== undefined) nativeLanguage.value = d.nativeLanguage
-  if (d.dailyGoal      !== undefined) dailyGoal.value      = d.dailyGoal
-  if (d.notifications  !== undefined) notifications.value  = d.notifications
-  if (d.offlineMode    !== undefined) offlineMode.value    = d.offlineMode
-  if (d.autoPlayAudio  !== undefined) autoPlayAudio.value  = d.autoPlayAudio
-  if (d.shortcuts      !== undefined) shortcuts.value      = { ...d.shortcuts }
-  if (d.apLocale       !== undefined) appLocale.value      = d.appLocale
-}
-
 async function save() {
   await db.settings.put({
     key: SETTINGS_KEY,
@@ -97,8 +81,7 @@ async function loadSettings() {
   return {
     theme, targetLanguage, nativeLanguage,
     dailyGoal, notifications, offlineMode, autoPlayAudio, shortcuts,
-    loadSettings, save,
+    appLocale, loadSettings, save,
     _loaded,
-    theme, targetLanguage, nativeLanguage, appLocale,
   }
 })
