@@ -54,8 +54,6 @@
 <script setup>
 import { computed } from 'vue'
 import { useStreakStore } from '@/stores/streak.store'
-import { computed } from 'vue'
-import { useStreakStore } from '@/stores/streak.store'
 import { useI18n } from '@/composables/useI18n'
 
 const { t } = useI18n()
