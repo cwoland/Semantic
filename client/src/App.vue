@@ -23,7 +23,7 @@ import { useKeyboard } from '@/composables/useKeyboard'
 
 import AppSidebar     from '@/components/layout/AppSidebar.vue'
 import AppBottomBar   from '@/components/layout/AppBottomBar.vue'
-import CommandPalette ftom '@/components/layout/CommandPalette.vue'
+import CommandPalette from '@/components/layout/CommandPalette.vue'
 import ToastStack     from '@/components/shared/Toast.vue'
 
 const route = useRoute()
