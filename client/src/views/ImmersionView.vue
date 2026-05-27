@@ -63,7 +63,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { ref, computed } from 'vue'
 import { useImmersionStore } from '@/stores/immersion.store'
 import { useWordsStore }     from '@/stores/words.store'
