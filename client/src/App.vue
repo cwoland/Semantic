@@ -23,7 +23,7 @@ import { useKeyboard } from '@/composables/useKeyboard'
 
 import AppSidebar     from '@/components/layout/AppSidebar.vue'
 import AppBottomBar   from '@/components/layout/AppBottomBar.vue'
-import ToastStack     from '@/components/shared/ToastStack.vue'
+import ToastStack     from '@/components/shared/Toast.vue'
 
 const route = useRoute()
 const isFullscreen = computed(() => !!route.meta.fullscreen)
