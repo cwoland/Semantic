@@ -88,7 +88,7 @@ const modes = computed(() => [
   { value: 'music',  label: t.immersion_music,   icon: 'ti-music'  },
   { value: 'movie',  label: t.immersion_movie,   icon: 'ti-movie'  },
 ])
-]
+
 
 function switchMode(mode) {
   activeMode.value = mode
