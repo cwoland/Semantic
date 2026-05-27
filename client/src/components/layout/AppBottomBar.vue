@@ -27,6 +27,7 @@
         { name: 'immersion', label: t.value.nav_immersion,   icon: 'ti-eye',              to: { name: 'immersion' },  hint: 'gi' },
         { name: 'stats',     label: t.value.nav_stats,  icon: 'ti-chart-line',            to: { name: 'stats' },      hint: 'gt' },
         { name: 'course',    label: t.value.nav_course,      icon: 'ti-road',             to: { name: 'course' },     hint: 'gc' },
+        { name: 'profile',   label: t.value.nav_profile ?? 'Profile', icon: 'ti-user',    to: { name: 'profile' } },
     ]
 
     function isActive(item) {

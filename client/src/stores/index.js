@@ -7,8 +7,12 @@ export { usePhrasesStore }   from './phrases.store'
 export { useSettingsStore }  from './settings.store'
 export { useImmersionStore } from './immersion.store'
 export { useCoursesStore }   from './courses.store'
+export { useAuthStore }      from './auth.store'
 
 export async function bootstrapStores() {
+  const { useAuthStore } = await import('./auth.store')
+  await useAuthStore().init()
+
   const [
     { useWordsStore },
     { useDecksStore },

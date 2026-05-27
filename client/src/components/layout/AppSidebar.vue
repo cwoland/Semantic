@@ -43,16 +43,28 @@
     </div>
 
     <div class="sidebar__bottom">
-      <button class="bottom-btn" @click="palette.open()" title="Command palette">
-        <i class="ti ti-command" aria-hidden="true" />
-        <span>Command</span>
-        <kbd>⌘K</kbd>
-      </button>
-
-      <RouterLink :to="{ name: 'settings' }" class="bottom-btn">
-        <i class="ti ti-settings" aria-hidden="true" />
-        <span>Settings</span>
+      <RouterLink :to="{ name: 'profile' }" class="sidebar-user">
+      <img
+      v-if="authStore.avatarUrl"
+      :src="authStore.avatarUrl"
+      class="sidebar-user__avatar"
+      :alt="authStore.user?.name"
+      />
+      <div v-else class="sidebar-user__initials">
+      {{ authStore.initials }}
+      </div>
+      <div class="sidebar-user__info">
+        <span class="sidebar-user__name">{{ authStore.user?.name }}</span>
+        <span class="sidebar-user__handle">@{{ authStore.user?.username }}</span>
+      </div>
+      <i class="ti ti-dots" style="color: var(--color-text-faint); font-size: 14px" />
       </RouterLink>
+
+      <button class="bottom-btn" @click="palette.open()" title="Command palette">
+      <i class="ti ti-command" aria-hidden="true" />
+      <span>Command</span>
+      <kbd>⌘K</kbd>
+      </button>
     </div>
 
   </aside>
@@ -65,12 +77,14 @@ import { useSettingsStore } from '@/stores/settings.store'
 import { useStreakStore }   from '@/stores/streak.store'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useI18n } from '@/composables/useI18n'
+import { useAuthStore } from '@/stores/auth.store'
 
 const route        = useRoute()
 const settings     = useSettingsStore()
 const streakStore  = useStreakStore()
 const palette      = useCommandPalette()
 const { t }        = useI18n()
+const authStore    = useAuthStore()
 
 const targetLang         = computed(() => settings.targetLanguage)
 const currentStreak      = computed(() => streakStore.currentStreak)
@@ -281,4 +295,67 @@ function isActive(item) {
 }
 
 .bottom-btn:hover kbd { opacity: 1; }
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: background 140ms;
+  margin: 0 var(--space-2);
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--color-border);
+}
+.sidebar-user:hover { background: var(--color-surface-2); }
+
+.sidebar-user__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.sidebar-user__initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-accent-faint);
+  border: 1px solid var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.sidebar-user__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebar-user__name {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user__handle {
+  font-size: 10px;
+  color: var(--color-text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

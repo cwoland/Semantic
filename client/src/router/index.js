@@ -12,6 +12,9 @@ const SettingsView   = () => import('@/views/SettingsView.vue')
 const NotFoundView   = () => import('@/views/NotFoundView.vue')
 const OnboardingView = () => import('@/views/OnboardingView.vue')
 const CourseView     = () => import('@/views/CourseView.vue')
+const AuthView       = () => import('@/views/AuthView.vue')
+const ProfileView    = () => import('@/views/ProfileView.vue')
+const ShareView      = () => import('@/views/ShareView.vue')
 
 const routes = [
   {
@@ -85,6 +88,30 @@ const routes = [
     component: CourseView,
     meta: { title: 'Course — Semantic', transition: 'fade' },
   },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: AuthView,
+    meta: { title: 'Sign in - Semantic', fullscreen: true, public: true },
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
+    meta: { title: 'Profile - Semantic', transition: 'slide-right' },
+  },
+  {
+    path: '/share/:slug',
+    name: 'share',
+    component: ShareView,
+    meta: { title: 'Semantic', fullscreen: true, public: true },
+  },
+  {
+    path: '/u/:username',
+    name: 'public-profile',
+    component: ShareView,
+    meta: { title:'Profile - Semantic', fullscreen: true, public: true },
+  },
 ]
 
 const router = createRouter({
@@ -103,19 +130,33 @@ router.afterEach((to) => {
 
 router.beforeEach(async (to) => {
   const { useSettingsStore } = await import('@/stores/settings.store')
-  const settings = useSettingsStore()
+  const { useAuthStore }     = await import('@/stores/auth.store')
 
-  if (!settings._loaded) {
-    await settings.loadSettings()
+  const settings  = useSettingsStore()
+  const authStore = useAuthStore()
+
+  if (!settings._loaded) await settings.loadSettings()
+
+  const isPublic     = !!to.meta.public
+  const isAuth       = to.name === 'auth'
+  const isOnboarding = to.name === 'onboarding'
+  const isShare      = to.name === 'share' || to.name === 'public-profile'
+
+  if (isPublic || isShare) return
+
+  if (!authStore.isLoggedIn && !authStore.initializing) {
+    if (!isAuth) return { name: 'auth' }
   }
 
-  const hasLanguage  = !!settings.targetLanguage
-  const isOnboarding = to.name === 'onboarding'
+  if (authStore.isLoggedIn && isAuth) {
+    return settings.targetLanguage
+      ? { name: 'dashboard' }
+      : { name: 'onboarding' }
+  }
 
-  console.log('GUARD:', { to: to.name, hasLanguage, isOnboarding })
-
-  if (!hasLanguage && !isOnboarding) return { name: 'onboarding' }
-  if (hasLanguage && isOnboarding)   return { name: 'dashboard' }
+  if (!settings.targetLanguage && !isOnboarding) {
+    return { name: 'onboarding' }
+  }
 })
 
 export default router
