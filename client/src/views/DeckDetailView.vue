@@ -286,7 +286,6 @@ async function updateDeck(data) {
 }
 
 async function confirmDelete() {
-  // Simple confirm — replace with a modal in a future iteration
   if (!confirm(`Delete "${deck.value.name}"? All words will be lost.`)) return
   await decksStore.deleteDeck(deckId.value)
   toast.info('Deck deleted')

@@ -63,7 +63,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { ref, computed } from 'vue'
 import { useImmersionStore } from '@/stores/immersion.store'
 import { useWordsStore }     from '@/stores/words.store'
@@ -89,7 +88,6 @@ const modes = computed(() => [
   { value: 'music',  label: t.immersion_music,   icon: 'ti-music'  },
   { value: 'movie',  label: t.immersion_movie,   icon: 'ti-movie'  },
 ])
-]
 
 function switchMode(mode) {
   activeMode.value = mode

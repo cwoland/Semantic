@@ -1,7 +1,7 @@
 <template>
   <div class="course-view">
     <div v-if="!hasCourse" class="course-setup">
-      <h1 class="page-title">{{ t.course-title}}</h1>
+      <h1 class="page-title">{{ t.course_title}}</h1>
       <p class="text-muted">{{ t.course_setup_sub }} {{ langName }}</p>
 
       <div class="level-picker">
@@ -206,13 +206,22 @@ function toggleUnit(id) {
 
 async function installCourse() {
   installing.value = true
-  const course = await coursesStore.installCourse(lang.value, selectedLevel.value)
-  installing.value = false
-  if (course) {
-    toast.success(`${langName.value} course ready!`)
-    await coursesStore.loadCourses()
-  } else {
-    toast.error(`No course available for ${langName.value} yet`)
+  try {
+    const course = await coursesStore.installCourse(lang.value, selectedLevel.value)
+    if (course) {
+      toast.success(`${langName.value} course ready!`)
+      await coursesStore.loadCourses()
+      if (units.value.length) {
+        openUnits.value = new Set([units.value[0].id])
+      }
+    } else {
+      toast.error(t.value.course_no_course)
+    }
+  } catch (e) {
+    console.error('installCourse error:', e)
+    toast.error('Failed to install course')
+  } finally {
+    installing.value = false
   }
 }
 

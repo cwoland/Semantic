@@ -17,8 +17,6 @@
 <script setup>
 import { computed } from 'vue'
 import { sm2, daysUntilReview } from '@/utils/sm2'
-import { computed } from 'vue'
-import { sm2, daysUntilReview } from '@/utils/sm2'
 import { useI18n } from '@/composables/useI18n'
 
 const { t } = useI18n()

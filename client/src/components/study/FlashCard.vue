@@ -59,7 +59,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import { computed } from 'vue'
 import { useI18n } from '@/composables/useI18n'
 
 const { t } = useI18n()
