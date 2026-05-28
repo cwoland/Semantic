@@ -37,37 +37,39 @@ export const useCoursesStore = defineStore('courses', () => {
     return Math.round(done / lessons.length * 100)
   })
 
-  async function loadCourses() {
-    loading.value = true
-    
-    const rawCourses = await db.courses.toArray()
+async function loadCourses() {
+  loading.value = true
 
-    const enriched = await Promise.all(
-      rawCourses.map(async (course) => {
-        const units = await db.units
-        .where('courseId').equals(unit.id)
+  const rawCourses = await db.courses.toArray()
+
+  const enriched = await Promise.all(
+    rawCourses.map(async (course) => {
+      const rawUnits = await db.units
+        .where('courseId').equals(course.id)
         .sortBy('order')
 
       const unitsWithLessons = await Promise.all(
-        units.map(async (unit) => {
+        rawUnits.map(async (singleUnit) => {
           const lessons = await db.lessons
-          .where('unitId').equals(unit.id)
-          .sortBy('order')
-        return { ...unit, lessons }
+            .where('unitId').equals(singleUnit.id)
+            .sortBy('order')
+          return { ...singleUnit, lessons }
         })
       )
+
       return { ...course, units: unitsWithLessons }
-      })
-    )
+    })
+  )
 
-    courses.value = enriched
+  courses.value = enriched
 
-    const progress = await db.lessonProgress.toArray()
-    lessonProgress.value = Object.fromEntries(
-      progress.map(p => [p.lessonId, p])
-    )
-    loading.value = false
-  }
+  const progress = await db.lessonProgress.toArray()
+  lessonProgress.value = Object.fromEntries(
+    progress.map(p => [p.lessonId, p])
+  )
+
+  loading.value = false
+}
 
 async function installCourse(language, maxLevel = 'A2') {
   try {
