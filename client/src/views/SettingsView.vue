@@ -2,17 +2,17 @@
   <div class="settings-view">
 
     <header class="page-header">
-      <h1 class="page-title">Settings</h1>
+      <h1 class="page-title">{{t.settings_title}}</h1>
     </header>
 
     <section class="settings-section">
-      <h2 class="settings-section__title">Language</h2>
+      <h2 class="settings-section__title">{{t.settings_language}}</h2>
 
       <div class="settings-card">
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Learning language</span>
-            <span class="setting-row__desc">The language you are studying</span>
+            <span class="setting-row__label">{{t.settings_learning}}</span>
+            <span class="setting-row__desc">{{ t.settings_learning_desc }}</span>
           </div>
           <select
             class="setting-select"
@@ -46,13 +46,13 @@
     </section>
 
     <section class="settings-section">
-      <h2 class="settings-section__title">Appearance</h2>
+      <h2 class="settings-section__title">{{ t.settings_appearance }}</h2>
 
       <div class="settings-card">
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Theme</span>
-            <span class="setting-row__desc">Light, dark or system default</span>
+            <span class="setting-row__label">{{t.settings_theme}}</span>
+            <span class="setting-row__desc">{{t.settings_theme_desc}}</span>
           </div>
           <div class="theme-toggle">
             <button
@@ -71,13 +71,13 @@
     </section>
 
     <section class="settings-section">
-      <h2 class="settings-section__title">Study</h2>
+      <h2 class="settings-section__title">{{t.settings_study}}</h2>
 
       <div class="settings-card">
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Daily goal</span>
-            <span class="setting-row__desc">Cards to review per day</span>
+            <span class="setting-row__label">{{t.settings_daily_goal}}</span>
+            <span class="setting-row__desc">{{t.settings_daily_desc}}</span>
           </div>
           <div class="number-input">
             <button class="number-btn" @click="changeGoal(-5)">−</button>
@@ -90,8 +90,8 @@
 
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Auto-play audio</span>
-            <span class="setting-row__desc">Play pronunciation automatically</span>
+            <span class="setting-row__label">{{t.settings_audio}}</span>
+            <span class="setting-row__desc">{{t.settings_audio_desc}}</span>
           </div>
           <button
             class="toggle"
@@ -108,8 +108,8 @@
 
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Offline mode</span>
-            <span class="setting-row__desc">Store all data locally</span>
+            <span class="setting-row__label">{{t.settings_offline}}</span>
+            <span class="setting-row__desc">{{t.settings_offline_desc}}</span>
           </div>
           <button
             class="toggle"
@@ -124,7 +124,7 @@
       </div>
     </section>
     <section class="settings-section">
-      <h2 class="settings-section__title">Keyboard shortcuts</h2>
+      <h2 class="settings-section__title">{{t.settings_shortcuts}}</h2>
 
       <div class="settings-card shortcuts-card">
         <div class="shortcut-row" v-for="s in shortcuts" :key="s.label">
@@ -134,16 +134,16 @@
       </div>
     </section>
     <section class="settings-section">
-      <h2 class="settings-section__title">Data</h2>
+      <h2 class="settings-section__title">{{t.settings_data}}</h2>
 
       <div class="settings-card">
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label">Reset language</span>
-            <span class="setting-row__desc">Go back to language selection</span>
+            <span class="setting-row__label">{{ t.settings_reset_lang }}</span>
+            <span class="setting-row__desc">{{t.settings_reset_desc}}</span>
           </div>
           <button class="btn btn--ghost" @click="resetLanguage">
-            Reset
+            {{t.settings_reset}}
           </button>
         </div>
 
@@ -151,11 +151,11 @@
 
         <div class="setting-row">
           <div class="setting-row__info">
-            <span class="setting-row__label danger-text">Clear all data</span>
-            <span class="setting-row__desc">Delete all words, decks and progress</span>
+            <span class="setting-row__label danger-text">{{t.settings_clear}}</span>
+            <span class="setting-row__desc">{{t.settings_clear_desc}}</span>
           </div>
           <button class="btn btn--danger" @click="clearData">
-            Clear
+            {{t.settings_clear_btn}}
           </button>
         </div>
       </div>
@@ -164,7 +164,7 @@
       <div class="settings-card about-card">
         <p class="about-title">Semantic</p>
         <p class="text-faint" style="font-size: var(--text-xs)">
-          Language learning for serious learners.
+          {{ t.auth_sub }}
         </p>
         <p class="text-faint" style="font-size: var(--text-xs); margin-top: var(--space-1)">
           v0.1.0
@@ -181,10 +181,12 @@ import { useSettingsStore } from '@/stores/settings.store'
 import { useToast }         from '@/composables/useToast'
 import { db }               from '@/db'
 import { LOCALES }          from '@/i18n'
+import { useI18n } from 'useI18n'
 
 const router        = useRouter()
 const settingsStore = useSettingsStore()
 const toast         = useToast()
+const { t }         = useI18n()
 
 const LANGUAGES = [
   { code: 'it', name: 'Italian',    flag: '🇮🇹' },

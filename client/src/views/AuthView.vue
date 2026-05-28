@@ -4,27 +4,27 @@
 
       <div class="auth-logo">
         <h1 class="auth-logo__title">Semantic</h1>
-        <p class="auth-logo__sub">Language learning for serious learners</p>
+        <p class="auth-logo__sub">{{t.auth_sub}}</p>
       </div>
 
       <div class="auth-tabs">
         <button
           class="auth-tab"
-          :class="{ 'auth-tab--active': mode === 'login' }"
+          :class="{ 'auth-tab--active': mode === t.auth_tab_login }"
           @click="switchMode('login')"
-        >Sign in</button>
+        >{{t.auth.login}}</button>
         <button
           class="auth-tab"
-          :class="{ 'auth-tab--active': mode === 'register' }"
+          :class="{ 'auth-tab--active': mode === t.auth_tab_register }"
           @click="switchMode('register')"
-        >Create account</button>
+        >{{t.auth_register}}</button>
       </div>
 
       <form class="auth-form" @submit.prevent="submit" novalidate>
 
         <Transition name="fade">
           <div v-if="mode === 'register'" class="form-group">
-            <label class="form-label">Full name</label>
+            <label class="form-label">{{t.auth_register_name}}</label>
             <input
               v-model="form.name"
               class="form-input"
@@ -39,7 +39,7 @@
 
         <Transition name="fade">
           <div v-if="mode === 'register'" class="form-group">
-            <label class="form-label">Username</label>
+            <label class="form-label">{{t.auth_register_surname}}</label>
             <div class="input-with-prefix">
               <span class="input-prefix">@</span>
               <input
@@ -56,7 +56,7 @@
         </Transition>
 
         <div class="form-group">
-          <label class="form-label">Email</label>
+          <label class="form-label">{{t.auth_register_email}}</label>
           <input
             v-model="form.email"
             class="form-input"
@@ -69,14 +69,14 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Password</label>
+          <label class="form-label">{{t.auth_register_password}}</label>
           <div class="input-with-suffix">
             <input
               v-model="form.password"
               class="form-input form-input--suffixed"
               :class="{ 'form-input--error': errors.password }"
-              :type="showPassword ? 'text' : 'password'"
-              placeholder="Min. 8 characters"
+              :type="showPassword ? 'text' : t.auth_register_password "
+              placeholder={{t.auth_register_min_pass}}
               autocomplete="current-password"
             />
             <button
@@ -102,7 +102,7 @@
           :disabled="authStore.loading"
         >
           <div class="spinner" v-if="authStore.loading" />
-          {{ mode === 'login' ? 'Sign in' : 'Create account' }}
+          {{ mode === 'login' ? t.auth_tab_login : t.auth_tab_register }}
         </button>
 
       </form>
@@ -130,6 +130,7 @@ import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
 import { useSettingsStore } from '@/stores/settings.store'
+import { useI18n } from '@/composables/useI18n'
 
 const router        = useRouter()
 const authStore     = useAuthStore()
@@ -139,6 +140,8 @@ const mode         = ref('login')
 const showPassword = ref(false)
 const globalError  = ref('')
 const errors       = ref({})
+
+const { t } = useI18n()
 
 const form = reactive({
   name:     '',

@@ -2,13 +2,13 @@
   <div class="profile-view">
 
     <header class="page-header">
-      <h1 class="page-title">Profile</h1>
+      <h1 class="page-title">{{ t.profile_title }}</h1>
       <button
         class="btn btn--ghost"
         @click="authStore.logout().then(() => router.push({ name: 'auth' }))"
       >
         <i class="ti ti-logout" />
-        Sign out
+        {{t.profile_signout}}
       </button>
     </header>
 
@@ -44,50 +44,50 @@
           class="remove-avatar-btn"
           @click="removeAvatar"
         >
-          Remove photo
+          {{t.profile_remove_photo}}
         </button>
       </div>
     </div>
 
     <section class="profile-section">
-      <h2 class="profile-section__title">Personal info</h2>
+      <h2 class="profile-section__title">{{t.profile_personal}}</h2>
       <div class="profile-card">
 
         <div class="form-group">
-          <label class="form-label">Full name</label>
-          <input v-model="form.name" class="form-input" placeholder="Your name" />
+          <label class="form-label">{{t.profile_name}}</label>
+          <input v-model="form.name" class="form-input" placeholder={{t.profile_name}} />
           <span class="form-error" v-if="errors.name">{{ errors.name }}</span>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Username</label>
+          <label class="form-label">{{t.profile_username}}</label>
           <div class="input-with-prefix">
             <span class="input-prefix">@</span>
             <input
               v-model="form.username"
               class="form-input form-input--prefixed"
-              placeholder="username"
+              placeholder={{t.profile_username}}
             />
           </div>
           <span class="form-error" v-if="errors.username">{{ errors.username }}</span>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Email</label>
+          <label class="form-label">{{t.profile_email}}</label>
           <input
             :value="authStore.user?.email"
             class="form-input form-input--disabled"
             disabled
           />
-          <span class="form-hint">Email cannot be changed</span>
+          <span class="form-hint">{{t.profile_email_hint}}</span>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Bio</label>
+          <label class="form-label">{{t.profile_bio}}</label>
           <textarea
             v-model="form.bio"
             class="form-input form-textarea"
-            placeholder="A few words about yourself…"
+            placeholder={{t.profile_bio_placehold}}
             maxlength="160"
             rows="3"
           />
@@ -100,17 +100,17 @@
           :disabled="authStore.loading || !hasChanges"
         >
           <div class="spinner" v-if="authStore.loading" />
-          Save changes
+          {{t.profile_bio_btn}}
         </button>
 
       </div>
     </section>
 
     <section class="profile-section">
-      <h2 class="profile-section__title">Languages</h2>
+      <h2 class="profile-section__title">{{t.profile_section_lang}}</h2>
       <div class="profile-card">
         <div class="form-group">
-          <label class="form-label">Learning</label>
+          <label class="form-label">{{t.profile_section_lang_label}}</label>
           <select v-model="form.targetLanguage" class="form-input form-select">
             <option v-for="l in LANGUAGES" :key="l.code" :value="l.code">
               {{ l.flag }} {{ l.name }}
@@ -118,7 +118,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Native</label>
+          <label class="form-label">{{t.profile_section_lang_native}}</label>
           <select v-model="form.nativeLanguage" class="form-input form-select">
             <option v-for="l in LANGUAGES" :key="l.code" :value="l.code">
               {{ l.flag }} {{ l.name }}
@@ -130,25 +130,25 @@
           @click="saveLanguages"
           :disabled="authStore.loading"
         >
-          Save languages
+          {{t.profile_section_lang_btn}}
         </button>
       </div>
     </section>
 
     <section class="profile-section">
-      <h2 class="profile-section__title">Share</h2>
+      <h2 class="profile-section__title">{{t.profile_section_share}}</h2>
       <div class="profile-card share-card">
         <p class="text-muted" style="font-size: var(--text-sm)">
-          Share your public profile or learning results
+          {{t.profile_section_share_p}}
         </p>
         <div class="share-actions">
           <button class="btn btn--ghost" @click="copyProfileLink">
             <i class="ti ti-link" />
-            Copy profile link
+            {{t.profile_section_share_copy}}
           </button>
           <button class="btn btn--ghost" @click="shareStreak">
             <i class="ti ti-flame" />
-            Share streak
+            {{t.profile_section_share_streak}}
           </button>
         </div>
         <div class="share-link" v-if="copiedLink">
@@ -163,23 +163,23 @@
     <section class="profile-section">
       <RouterLink :to="{ name: 'settings' }" class="settings-link">
         <i class="ti ti-settings" />
-        <span>App settings</span>
+        <span>{{t.profile_settings}}</span>
         <i class="ti ti-arrow-right" style="margin-left: auto; color: var(--color-text-faint)" />
       </RouterLink>
     </section>
 
     <section class="profile-section">
-      <h2 class="profile-section__title danger-title">Danger zone</h2>
+      <h2 class="profile-section__title danger-title">{{t.profile_danger}}</h2>
       <div class="profile-card">
         <div class="danger-row">
           <div>
-            <p class="form-label">Delete account</p>
+            <p class="form-label">{{t.profile_delete}}</p>
             <p class="text-faint" style="font-size: var(--text-xs)">
-              Permanently delete your account and all data
+              {{t.profile_delete_warn}}
             </p>
           </div>
           <button class="btn btn--danger" @click="deleteAccount">
-            Delete
+            {{t.profile_delete_btn}}
           </button>
         </div>
       </div>
@@ -190,18 +190,20 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter }        from 'vue-router'
 import { useAuthStore }     from '@/stores/auth.store'
-import { useStreakStore }    from '@/stores/streak.store'
+import { useStreakStore }   from '@/stores/streak.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useToast }         from '@/composables/useToast'
 import { createShare }      from '@/services/auth.service'
+import { useI18n }          from '@/composables/useI18n'
 
 const router        = useRouter()
 const authStore     = useAuthStore()
 const streakStore   = useStreakStore()
 const settingsStore = useSettingsStore()
 const toast         = useToast()
+const { t }         = useI18n()
 
 const errors    = ref({})
 const copiedLink = ref('')

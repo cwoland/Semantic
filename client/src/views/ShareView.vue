@@ -30,16 +30,16 @@
       <div v-else-if="share.type === 'streak'" class="share-content share-content--streak">
         <i class="ti ti-flame share-flame flame-pulse" />
         <p class="share-streak-count">{{ share.data.streakCount }}</p>
-        <p class="share-streak-label text-muted">day streak on Semantic</p>
+        <p class="share-streak-label text-muted">{{t.share_streak_count}}</p>
       </div>
 
       <div v-else-if="share.type === 'session'" class="share-content share-content--session">
         <p class="share-session-score">{{ share.data.correct }}/{{ share.data.total }}</p>
-        <p class="text-muted">cards correct in "{{ share.data.deckName }}"</p>
+        <p class="text-muted">{{t.share_streak_cards}} "{{ share.data.deckName }}"</p>
       </div>
 
       <RouterLink :to="{ name: 'auth' }" class="share-cta">
-        Start learning on Semantic →
+        {{t.share_link}}
       </RouterLink>
 
     </div>
@@ -49,9 +49,9 @@
     </div>
 
     <div v-else class="share-notfound">
-      <p class="text-muted">This share link has expired or doesn't exist.</p>
+      <p class="text-muted">{{t.share_link_err}}</p>
       <RouterLink :to="{ name: 'dashboard' }" class="btn btn--ghost">
-        Go to dashboard
+        {{t.share_route}}
       </RouterLink>
     </div>
   </div>
@@ -61,10 +61,12 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getShare } from '@/services/auth.service'
+import { useI18n }  from '@/composables/useI18n'
 
 const route   = useRoute()
 const share   = ref(null)
 const loading = ref(true)
+const { t }   = useI18n()
 
 onMounted(async () => {
   try {

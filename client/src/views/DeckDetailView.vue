@@ -4,14 +4,14 @@
       <div class="deck-header__top">
         <RouterLink :to="{ name: 'decks' }" class="back-link">
           <i class="ti ti-arrow-left" aria-hidden="true" />
-          Decks
+          {{t.deck_header}}
         </RouterLink>
 
         <div class="deck-header__actions">
-          <button class="icon-btn" @click="showEditForm = true" title="Edit deck">
+          <button class="icon-btn" @click="showEditForm = true" title="{{t.deck_header_edit}}">
             <i class="ti ti-pencil" aria-hidden="true" />
           </button>
-          <button class="icon-btn icon-btn--danger" @click="confirmDelete" title="Delete deck">
+          <button class="icon-btn icon-btn--danger" @click="confirmDelete" title="{{t.deck_header_del}}">
             <i class="ti ti-trash" aria-hidden="true" />
           </button>
         </div>
@@ -45,7 +45,7 @@
           <div class="progress-bar">
             <div class="progress-bar__fill" :style="{ width: deckStats.progress + '%' }" />
           </div>
-          <span class="deck-stat-item__label">{{ deckStats.progress }}% known</span>
+          <span class="deck-stat-item__label">{{ deckStats.progress }}% {{ t.deck_stat_item }}</span>
         </div>
       </div>
     </header>
@@ -72,7 +72,7 @@
         <input
           v-model="searchQuery"
           class="search-input"
-          placeholder="Search words…"
+          placeholder={{t.deck_search_box}}
           aria-label="Search words"
         />
         <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''" aria-label="Clear search">
@@ -82,7 +82,7 @@
 
       <button class="btn btn--ghost" @click="showAddWord = true">
         <i class="ti ti-plus" aria-hidden="true" />
-        Add word
+        {{ t.deck_add_word }}
       </button>
 
     </div>
@@ -125,16 +125,16 @@
 
     <div class="empty-state" v-else-if="!deckWords.length">
       <i class="ti ti-cards empty-state__icon" aria-hidden="true" />
-      <h2>No words in this deck</h2>
-      <p class="text-muted">Add your first word to start building vocabulary.</p>
+      <h2>{{t.deck_empty}}</h2>
+      <p class="text-muted">{{t.deck_empty_p}}</p>
       <button class="btn btn--primary" @click="showAddWord = true" style="margin-top: var(--space-4)">
         <i class="ti ti-plus" />
-        Add first word
+        {{t.deck_add_btn}}
       </button>
     </div>
 
     <div class="empty-state" v-else>
-      <p class="text-muted">No words match "{{ searchQuery }}"</p>
+      <p class="text-muted">{{t.deck_no_match}} "{{ searchQuery }}"</p>
     </div>
 
     <Teleport to="body">
@@ -143,7 +143,7 @@
           <div class="word-form" role="dialog" aria-label="Add word">
 
             <div class="word-form__header">
-              <h2>Add word</h2>
+              <h2>{{t.deck_add_word}}</h2>
               <button class="icon-btn" @click="showAddWord = false">
                 <i class="ti ti-x" />
               </button>
@@ -151,27 +151,27 @@
 
             <div class="word-form__body">
               <label class="form-field">
-                <span class="form-field__label">Word</span>
+                <span class="form-field__label">{{t.deck_word}}</span>
                 <input v-model="newWord.word" class="form-input" placeholder="e.g. serendipity" autofocus @keydown.enter="submitWord" />
               </label>
               <label class="form-field">
-                <span class="form-field__label">Translation</span>
+                <span class="form-field__label">{{t.deck_translation}}</span>
                 <input v-model="newWord.translation" class="form-input" placeholder="Translation or definition" @keydown.enter="submitWord" />
               </label>
               <label class="form-field">
-                <span class="form-field__label">Example <span style="color: var(--color-text-faint); font-size: var(--text-xs)">(optional)</span></span>
+                <span class="form-field__label">{{t.deck_example}} <span style="color: var(--color-text-faint); font-size: var(--text-xs)">(optional)</span></span>
                 <input v-model="newWord.example" class="form-input" placeholder="Example sentence" @keydown.enter="submitWord" />
               </label>
               <label class="form-field">
-                <span class="form-field__label">Notes <span style="color: var(--color-text-faint); font-size: var(--text-xs)">(optional)</span></span>
+                <span class="form-field__label">{{t.deck_notes}} <span style="color: var(--color-text-faint); font-size: var(--text-xs)">(optional)</span></span>
                 <input v-model="newWord.notes" class="form-input" placeholder="Grammar notes, mnemonics…" @keydown.enter="submitWord" />
               </label>
             </div>
 
             <div class="word-form__footer">
-              <button class="btn btn--ghost" @click="showAddWord = false">Cancel</button>
+              <button class="btn btn--ghost" @click="showAddWord = false">{{t.deck_cancel}}</button>
               <button class="btn btn--primary" @click="submitWord" :disabled="!newWord.word.trim()">
-                Add word
+                {{t.deck_add_word}}
               </button>
             </div>
 
@@ -195,9 +195,9 @@
 
   <div class="empty-state" v-else style="padding: var(--space-16)">
     <i class="ti ti-mood-sad empty-state__icon" />
-    <h2>Deck not found</h2>
+    <h2>{{t.deck_no_found}}</h2>
     <RouterLink :to="{ name: 'decks' }" class="btn btn--ghost" style="margin-top: var(--space-4)">
-      Back to decks
+      {{t.deck_back}}
     </RouterLink>
   </div>
 </template>
@@ -210,12 +210,14 @@ import { useWordsStore } from '@/stores/words.store'
 import { useToast }      from '@/composables/useToast'
 import { daysUntilReview } from '@/utils/sm2'
 import DeckForm from '@/components/decks/DeckForm.vue'
+import { useI18n } from '@/composables/useI18n'
 
 const route      = useRoute()
 const router     = useRouter()
 const decksStore = useDecksStore()
 const wordsStore = useWordsStore()
 const toast      = useToast()
+const { t }      = useI18n()
 
 const deckId = computed(() => Number(route.params.id))
 const deck   = computed(() => decksStore.deckById(deckId.value))
