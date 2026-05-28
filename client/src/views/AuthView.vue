@@ -261,7 +261,7 @@ async function submit() {
 
 .auth-tab {
   flex: 1;
-  padding: var(--space-2) var(--space-3);
+  padding: 5px;
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   font-weight: 500;
@@ -418,6 +418,7 @@ async function submit() {
   min-width: 40px;
   text-align: right;
   transition: color 300ms;
+  padding: 5px;
 }
 
 .spinner {

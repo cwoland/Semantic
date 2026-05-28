@@ -24,7 +24,9 @@ api.interceptors.response.use(
   async (err) => {
     const original = err.config
 
-    if (err.response?.status === 401 && !original._retry) {
+    const isAuthRoute = original.url?.includes('/api/auth/')
+    
+    if (err.response?.status === 401 && !original._retry && !isAuthRoute) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -34,8 +36,8 @@ api.interceptors.response.use(
         })
       }
 
-      original._retry  = true
-      isRefreshing     = true
+      original._retry = true
+      isRefreshing    = true
 
       try {
         const refreshToken = localStorage.getItem('refreshToken')
@@ -48,7 +50,6 @@ api.interceptors.response.use(
 
         localStorage.setItem('accessToken',  data.accessToken)
         localStorage.setItem('refreshToken', data.refreshToken)
-
         api.defaults.headers.Authorization = `Bearer ${data.accessToken}`
         processQueue(null, data.accessToken)
 
@@ -57,7 +58,9 @@ api.interceptors.response.use(
         processQueue(refreshErr, null)
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        window.location.href = '/auth'
+        if (window.location.pathname !== '/auth') {
+          window.location.href = '/auth'
+        }
         return Promise.reject(refreshErr)
       } finally {
         isRefreshing = false
@@ -65,7 +68,7 @@ api.interceptors.response.use(
     }
 
     if (import.meta.env.DEV) {
-      console.warn('[API Error]', err.config?.url, err.message)
+      console.warn('[API Error]', err.config?.url, err.response?.status, err.message)
     }
     return Promise.reject(err)
   }
