@@ -181,7 +181,7 @@ import { useSettingsStore } from '@/stores/settings.store'
 import { useToast }         from '@/composables/useToast'
 import { db }               from '@/db'
 import { LOCALES }          from '@/i18n'
-import { useI18n }          from 'useI18n'
+import { useI18n }          from '@/composables/useI18n'
 
 const router        = useRouter()
 const settingsStore = useSettingsStore()
