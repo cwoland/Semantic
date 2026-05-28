@@ -241,11 +241,13 @@ async function submit() {
   font-style: italic;
   color: var(--color-text);
   margin-bottom: var(--space-1);
+  padding: 5px;
 }
 
 .auth-logo__sub {
   font-size: var(--text-xs);
   color: var(--color-text-faint);
+  padding: 5px;
 }
 
 .auth-tabs {
@@ -254,7 +256,7 @@ async function submit() {
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 3px;
+  padding: 5px;
 }
 
 .auth-tab {
@@ -280,18 +282,21 @@ async function submit() {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  padding: 5px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  padding: 5px;
 }
 
 .form-label {
   font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-text-muted);
+  padding: 5px;
 }
 
 .form-input {
