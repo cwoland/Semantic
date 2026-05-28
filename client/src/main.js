@@ -13,7 +13,6 @@ async function init() {
     const pinia = createPinia()
 
     app.use(pinia)
-    app.use(router)
 
     try {
     await bootstrapStores()
@@ -24,6 +23,8 @@ async function init() {
             await db.open()
         } catch {}
     }
+
+    app.use(router)
 
     const { useSettingsStore } = await import('./stores/settings.store')
     const settings = useSettingsStore()

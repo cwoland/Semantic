@@ -28,9 +28,14 @@ export const useSettingsStore = defineStore('settings', () => {
     goImmersion:  'g i',
   })
 
+  const _loaded = ref(false)
+
 async function loadSettings() {
   const saved = await db.settings.get(SETTINGS_KEY)
-  if (!saved) return
+  if (!saved) {
+    _loaded.value = true
+    return
+  }
 
   const d = saved.value
   if (d.theme          !== undefined) theme.value          = d.theme
@@ -41,7 +46,8 @@ async function loadSettings() {
   if (d.offlineMode    !== undefined) offlineMode.value    = d.offlineMode
   if (d.autoPlayAudio  !== undefined) autoPlayAudio.value  = d.autoPlayAudio
   if (d.shortcuts      !== undefined) shortcuts.value      = { ...d.shortcuts }
-  if (d.apLocale       !== undefined) appLocale.value      = d.appLocale
+  if (d.appLocale      !== undefined) appLocale.value      = d.appLocale
+  _loaded.value = true
 }
 
 async function save() {
@@ -62,7 +68,7 @@ async function save() {
 }
 
 watch(
-  [theme, targetLanguage, nativeLanguage, dailyGoal,
+  [theme, targetLanguage, nativeLanguage, dailyGoal, appLocale,
    notifications, offlineMode, autoPlayAudio],
   () => save(),
   { deep: false }
@@ -73,32 +79,10 @@ watch(
   () => save(),
 )
 
-const _loaded = ref(false)
-
-async function loadSettings() {
-  const saved = await db.settings.get(SETTINGS_KEY)
-  if (!saved) {
-    _loaded.value = true
-    return
-  }
-  const d = saved.value
-  if (d.theme          !== undefined) theme.value          = d.theme
-  if (d.targetLanguage !== undefined) targetLanguage.value = d.targetLanguage
-  if (d.nativeLanguage !== undefined) nativeLanguage.value = d.nativeLanguage
-  if (d.dailyGoal      !== undefined) dailyGoal.value      = d.dailyGoal
-  if (d.notifications  !== undefined) notifications.value  = d.notifications
-  if (d.offlineMode    !== undefined) offlineMode.value    = d.offlineMode
-  if (d.autoPlayAudio  !== undefined) autoPlayAudio.value  = d.autoPlayAudio
-  if (d.shortcuts      !== undefined) shortcuts.value      = { ...d.shortcuts }
-  _loaded.value = true
-}
-
-
   return {
-    theme, targetLanguage, nativeLanguage,
+    theme, targetLanguage, nativeLanguage, appLocale,
     dailyGoal, notifications, offlineMode, autoPlayAudio, shortcuts,
     loadSettings, save,
     _loaded,
-    theme, targetLanguage, nativeLanguage, appLocale,
   }
 })

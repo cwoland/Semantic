@@ -173,7 +173,7 @@ const hasCourse = computed(() =>
 )
 
 const currentCourse = computed(() =>
-  courses.value.find(c => c.language === lang.value)
+  coursesStore.courses.find(c => c.language === lang.value)
 )
 
 const units = computed(() => currentCourse.value?.units ?? [])
@@ -541,4 +541,59 @@ async function startLesson(lesson, unit) {
   animation: spin 500ms linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .course-view {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .level-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .unit-card__header {
+    padding: var(--space-3) var(--space-4);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .unit-card__left {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .unit-card__right {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: var(--space-2);
+  }
+
+  .unit-card__lessons {
+    padding: var(--space-2) 0;
+  }
+
+  .lesson-row {
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .lesson-row__btn {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .course-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+}
 </style>

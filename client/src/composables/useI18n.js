@@ -7,11 +7,11 @@ export function useI18n() {
 
     const t = computed(() => {
         const locale = settingsStore.appLocale ?? 'en'
-        return getTranslations(locale)
-
+        const translations = getTranslations(locale)
+        
         return new Proxy(translations, {
             get(target, key) {
-                return target[key] ?? `[${string(key)}]`
+                return target[key] ?? `[${String(key)}]`
             }
         })
     })
