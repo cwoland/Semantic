@@ -220,8 +220,15 @@ function goStudy(deckId) {
 
 .dashboard__row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .dashboard__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .info-card {

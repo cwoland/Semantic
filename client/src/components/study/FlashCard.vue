@@ -94,6 +94,7 @@ const sourceLabel = computed(() => ({
   max-width: 600px;
   height: 340px;
   outline: none;
+  -webkit-perspective: 1200px;
 }
 
 .card-flip-scene.is-interactive { cursor: pointer; }
@@ -110,9 +111,10 @@ const sourceLabel = computed(() => ({
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card-flip-inner.is-flipped { transform: rotateY(180deg); }
+.card-flip-inner.is-flipped { transform: rotateY(180deg); -webkit-transform: rotateY(180drg); }
 
 .card-face {
   position: absolute;
@@ -126,13 +128,22 @@ const sourceLabel = computed(() => ({
   justify-content: center;
   padding: var(--space-8);
   overflow: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
-.card-face--front { background: var(--color-surface); }
+.card-face--front { 
+  background: var(--color-surface);
+  z-index: 2;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg); 
+}
 
 .card-face--back {
   background: var(--color-surface-2);
+  -webkit-transform: rotate(180deg);
   transform: rotateY(180deg);
+  z-index: 1;
 }
 
 .card-face::after {

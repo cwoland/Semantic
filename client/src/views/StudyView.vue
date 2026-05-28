@@ -272,6 +272,15 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   width: 100%;
   max-width: 700px;
   padding: var(--space-8) var(--space-6);
+  position: relative;
+  z-index: 1;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.rating-bar {
+  position: relative;
+  z-index: 10;
 }
 
 .study-view__shortcuts {
@@ -320,5 +329,32 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 .btn--ghost:hover {
   background: var(--color-surface-3);
   color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  .study-view__session {
+    padding: var(--space-4) var(--space-3);
+    gap: var(--space-5);
+  }
+
+  .card-flip-scene {
+    height: 260px;
+  }
+
+  .rating-bar {
+    gap: var(--space-2);
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .rating-btn {
+    flex: 1;
+    min-width: unset;
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .study-view__shortcuts {
+    display: none;
+  }
 }
 </style>

@@ -106,7 +106,12 @@ const monthLabels = computed(() => {
 }
 .heatmap__months span { position: absolute; }
 
-.heatmap__grid { display: flex; gap: var(--space-2); }
+.heatmap__grid { 
+  display: flex; 
+  gap: var(--space-2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
 .heatmap__dow {
   display: flex;
@@ -119,7 +124,11 @@ const monthLabels = computed(() => {
   height: calc(7 * 12px + 6 * 2px);
 }
 
-.heatmap__weeks { display: flex; gap: 2px; }
+.heatmap__weeks { 
+  display: flex;
+  gap: 2px; 
+  min-width: max-content;
+}
 
 .heatmap__week {
   display: flex;

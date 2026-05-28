@@ -689,4 +689,59 @@ function intervalLabel(word) {
 }
 .icon-btn:hover { color: var(--color-text); background: var(--color-surface-2); }
 .icon-btn--danger:hover { color: var(--color-danger); background: rgba(192,57,43,0.1); }
+
+@media (max-width: 768px) {
+  .deck-detail {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .deck-header__body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .deck-header__body .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .deck-stats {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .deck-stat-item {
+    min-width: 50px;
+    flex-shrink: 0;
+  }
+
+  .words-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+
+  .filter-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+  }
+
+  .search-box { max-width: 100%; }
+
+  .words-toolbar .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .word-row__interval { display: none; }
+
+  .deck-stat-item--bar {
+    min-width: 100px;
+  }
+}
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="course-view">
-    <div v-if="!hasCourse" class="course-setup">
+
+    <div v-if="coursesStore.loading" class="course-loading">
+      <div class="spinner" />
+    </div>
+    <div v-else-if="!hasCourse" class="course-setup">
       <h1 class="page-title">{{ t.course_title}}</h1>
       <p class="text-muted">{{ t.course_setup_sub }} {{ langName }}</p>
 

@@ -8,6 +8,12 @@ export function useI18n() {
     const t = computed(() => {
         const locale = settingsStore.appLocale ?? 'en'
         return getTranslations(locale)
+
+        return new Proxy(translations, {
+            get(target, key) {
+                return target[key] ?? `[${string(key)}]`
+            }
+        })
     })
 
     return { t }
