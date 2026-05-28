@@ -69,16 +69,22 @@ export const useCoursesStore = defineStore('courses', () => {
     loading.value = false
   }
 
-  async function installCourse(language, maxLevel = 'A2') {
+async function installCourse(language, maxLevel = 'A2') {
+  try {
+    console.log('installCourse start:', language, maxLevel)
+    
     const template = COURSE_TEMPLATES.find(t => t.language === language)
+    console.log('template found:', !!template)
     if (!template) return null
 
-    const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-    const maxIdx = LEVELS.indexOf(maxLevel)
+    const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+    const maxIdx = LEVEL_ORDER.indexOf(maxLevel)
+    console.log('maxIdx:', maxIdx)
 
     const unitsToInstall = template.units.filter(u =>
-      LEVELS.indexOf(u.level) <= maxIdx
+      LEVEL_ORDER.indexOf(u.level) <= maxIdx
     )
+    console.log('units to install:', unitsToInstall.length)
 
     const courseId = await db.courses.add({
       language,
@@ -87,34 +93,39 @@ export const useCoursesStore = defineStore('courses', () => {
       maxLevel,
       installedAt: Date.now(),
     })
+    console.log('course created:', courseId)
 
-    for (const unitTemplate of unitsToInstall) {
+    for (const ut of unitsToInstall) {
+      console.log('creating unit:', ut.title)
       const unitId = await db.units.add({
         courseId,
-        title:       unitTemplate.title,
-        description: unitTemplate.description,
-        level:       unitTemplate.level,
-        icon:        unitTemplate.icon,
-        order:       unitTemplate.order,
+        title:       ut.title,
+        description: ut.description,
+        level:       ut.level,
+        icon:        ut.icon,
+        order:       ut.order,
       })
 
-      for (const lessonTemplate of unitTemplate.lessons) {
+      for (const lt of ut.lessons) {
+        console.log('creating lesson:', lt.title)
         await db.lessons.add({
           unitId,
           courseId,
-          title:       lessonTemplate.title,
-          description: lessonTemplate.description,
-          order:       lessonTemplate.order,
-          words:       lessonTemplate.words,
+          title:       lt.title,
+          description: lt.description,
+          order:       lt.order,
+          words:       lt.words,
         })
       }
     }
 
     await loadCourses()
-
-    const course = courses.value.find(c => c.id === courseId)
-    return course
+    return courses.value.find(c => c.id === courseId)
+  } catch (e) {
+    console.error('installCourse full error:', e)
+    throw e
   }
+}
 
   async function startLesson(lesson) {
     const wordsStore = useWordsStore()
