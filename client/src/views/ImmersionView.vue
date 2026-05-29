@@ -57,7 +57,6 @@
       </div>
     </Modal>
 
-  </div>
 </template>
 
 <script setup>
