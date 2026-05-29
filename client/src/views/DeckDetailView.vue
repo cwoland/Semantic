@@ -72,7 +72,7 @@
         <input
           v-model="searchQuery"
           class="search-input"
-          placeholder={{t.deck_search_box}}
+          placeholder="t.deck_search_box"
           aria-label="Search words"
         />
         <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''" aria-label="Clear search">

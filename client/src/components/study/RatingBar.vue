@@ -29,19 +29,29 @@ defineEmits(['rate'])
 
 const buttons = computed(() => {
   const ratings = [
-    { quality: 1, key: 'again', label: t.study_again },
-    { quality: 2, key: 'hard',  label: t.study_hard  },
-    { quality: 4, key: 'good',  label: t.study_good  },
-    { quality: 5, key: 'easy',  label: t.study_easy  },
+    { quality: 1, key: 'again', label: t.value.study_again },
+    { quality: 2, key: 'hard',  label: t.value.study_hard  },
+    { quality: 4, key: 'good',  label: t.value.study_good  },
+    { quality: 5, key: 'easy',  label: t.value.study_easy  },
   ]
 
   return ratings.map(r => {
     const result = sm2(props.card, r.quality)
-    const days   = daysUntilReview(result.nextReview)
-    const next   = days <= 1   ? 'now'
-                 : days < 7   ? `${days}d`
-                 : days < 30  ? `${Math.round(days / 7)}w`
-                 : `${Math.round(days / 30)}mo`
+    const days   = Math.ceil((result.nextReview - Date.now()) / 86400000)
+    let next
+    if (r.quality < 3) {
+      next = '~10m'
+    } else if (days <= 0) {
+      next = 'today'
+    } else if (days === 1) {
+      next = '1d'
+    } else if (days < 7) {
+      next = `${days}d`
+    } else if (days < 30) {
+      next = `${Math.round(days / 7)}w`
+    } else {
+      next = `${Math.round(days / 30)}mo`
+    }
     return { ...r, next }
   })
 })

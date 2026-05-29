@@ -12,12 +12,12 @@
           class="auth-tab"
           :class="{ 'auth-tab--active': mode === t.auth_tab_login }"
           @click="switchMode('login')"
-        >{{t.auth.login}}</button>
+        >{{t.auth_tab_login}}</button>
         <button
           class="auth-tab"
           :class="{ 'auth-tab--active': mode === t.auth_tab_register }"
           @click="switchMode('register')"
-        >{{t.auth_register}}</button>
+        >{{t.auth_tab_register}}</button>
       </div>
 
       <form class="auth-form" @submit.prevent="submit" novalidate>
@@ -30,7 +30,7 @@
               class="form-input"
               :class="{ 'form-input--error': errors.name }"
               type="text"
-              placeholder="John Doe"
+              placeholder="t.auth_name_placehold"
               autocomplete="name"
             />
             <span class="form-error" v-if="errors.name">{{ errors.name }}</span>
@@ -47,7 +47,7 @@
                 class="form-input form-input--prefixed"
                 :class="{ 'form-input--error': errors.username }"
                 type="text"
-                placeholder="johndoe"
+                placeholder="t.auth_username_placehold"
                 autocomplete="username"
               />
             </div>
@@ -76,7 +76,7 @@
               class="form-input form-input--suffixed"
               :class="{ 'form-input--error': errors.password }"
               :type="showPassword ? 'text' : t.auth_register_password "
-              placeholder={{t.auth_register_min_pass}}
+              placeholder="t.auth_register_min_pass"
               autocomplete="current-password"
             />
             <button

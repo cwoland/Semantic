@@ -17,6 +17,9 @@ export const TRANSLATIONS = {
     auth_register_email: 'Email',
     auth_register_password: 'Password',
     auth_register_min_pass: 'Min. 8 characters',
+    auth_name_placehold: 'John Doe',
+    auth_username_placehold: 'johndoe',
+
 
     profile_title: 'Profile',
     profile_signout: 'Sign out',
@@ -251,6 +254,8 @@ export const TRANSLATIONS = {
     auth_register_email: 'Почта',
     auth_register_password: 'Пароль',
     auth_register_min_pass: 'Мин. 8 символов',
+    auth_name_placehold: 'Василий',
+    auth_username_placehold: 'vasily1',
 
     profile_title: 'Профиль',
     profile_signout: 'Выйти',
@@ -486,6 +491,8 @@ export const TRANSLATIONS = {
     auth_register_email: 'Email',
     auth_register_password: 'Password',
     auth_register_min_pass: 'Min. 8 characters',
+    auth_name_placehold: 'John Doe',
+    auth_username_placehold: 'johndoe',
 
     profile_title: 'Profile',
     profile_signout: 'Sign out',
@@ -720,6 +727,8 @@ export const TRANSLATIONS = {
     auth_register_email: 'Email',
     auth_register_password: 'Mot-de-passe',
     auth_register_min_pass: 'Min. 8',
+    auth_name_placehold: 'Napoléon',
+    auth_username_placehold: 'napoleon1',
 
     profile_title: 'Profile',
     profile_signout: 'Se déconnecter',
@@ -954,6 +963,8 @@ export const TRANSLATIONS = {
     auth_register_email: 'Email',
     auth_register_password: 'Password',
     auth_register_min_pass: 'Min. 8 characters',
+    auth_name_placehold: 'Miguel',
+    auth_username_placehold: 'miguel1',
 
     profile_title: 'Profile',
     profile_signout: 'Sign out',
@@ -1188,6 +1199,8 @@ export const TRANSLATIONS = {
     auth_register_email: 'Email',
     auth_register_password: 'Password',
     auth_register_min_pass: 'Min. 8 characters',
+    auth_name_placehold: 'Giorno Giovanna',
+    auth_username_placehold: 'giornodio',
 
     profile_title: 'Profile',
     profile_signout: 'Sign out',
