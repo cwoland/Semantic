@@ -243,9 +243,14 @@ async function handleAvatarUpload(e) {
     toast.error('File too large (max 5MB)')
     return
   }
-  const result = await authStore.uploadAvatar(file)
-  if (result.ok) toast.success('Avatar updated')
-  else           toast.error(result.message)
+  try {
+    const result = await authStore.uploadAvatar(file)
+    if (result.ok) toast.success('Avatar updated')
+    else           toast.error(result.message ?? 'Failed to upload avatar')
+  } catch (e) {
+    console.error('uploadAvatar error:', e)
+    toast.error('Failed to upload avatar')
+  }
 }
 
 async function removeAvatar() {

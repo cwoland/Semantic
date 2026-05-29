@@ -131,12 +131,20 @@ const LANGUAGES = [
 
 async function generate() {
   if (!topic.value.trim()) return
-  generatedWords.value = await generateDeck(
-    topic.value,
-    language.value,
-    settingsStore.nativeLanguage || 'en',
-    wordCount.value
-  )
+  try {
+    generatedWords.value = await generateDeck(
+      topic.value,
+      language.value,
+      settingsStore.nativeLanguage || 'en',
+      wordCount.value
+    )
+    if (!generatedWords.value.length && aiError.value) {
+      toast.error(aiError.value)
+    }
+  } catch (err) {
+    toast.error('Failed to generate deck')
+    generatedWords.value = []
+  }
 }
 
 async function saveDeck() {

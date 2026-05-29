@@ -125,7 +125,7 @@ async function installCourse(language, maxLevel = 'A2') {
     return courses.value.find(c => c.id === courseId)
   } catch (e) {
     console.error('installCourse full error:', e)
-    throw e
+    return null
   }
 }
 

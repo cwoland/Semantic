@@ -259,19 +259,29 @@ function toggleOffline() {
 }
 
 async function resetLanguage() {
-  settingsStore.targetLanguage = ''
-  await settingsStore.save()
-  router.push({ name: 'onboarding' })
+  try {
+    settingsStore.targetLanguage = ''
+    await settingsStore.save()
+    await router.push({ name: 'onboarding' })
+  } catch (e) {
+    console.error('resetLanguage error:', e)
+    toast.error('Failed to reset language')
+  }
 }
 
 async function clearData() {
   if (!confirm('Delete ALL words, decks, streaks and progress? This cannot be undone.')) return
-  await db.delete()
-  await db.open()
-  toast.success('All data cleared')
-  settingsStore.targetLanguage = ''
-  await settingsStore.save()
-  router.push({ name: 'onboarding' })
+  try {
+    await db.delete()
+    await db.open()
+    toast.success('All data cleared')
+    settingsStore.targetLanguage = ''
+    await settingsStore.save()
+    await router.push({ name: 'onboarding' })
+  } catch (e) {
+    console.error('clearData error:', e)
+    toast.error('Failed to clear data')
+  }
 }
 </script>
 

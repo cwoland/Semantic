@@ -210,27 +210,36 @@ function loadSubtitles() {
 
 async function onWordClick(token, event) {
   if (!token.word) return
-  const rect = event.target.getBoundingClientRect()
-  capturePos.value = { x: rect.left, y: rect.top }
-  activeWord.value = token.word
-  await lookup(token.word, settingsStore.targetLanguage)
+  try {
+    const rect = event.target.getBoundingClientRect()
+    capturePos.value = { x: rect.left, y: rect.top }
+    activeWord.value = token.word
+    await lookup(token.word, settingsStore.targetLanguage)
+  } catch (err) {
+    toast.error('Failed to look up word')
+    activeWord.value = null
+  }
 }
 
 function saveWord(result) {
-  immersionStore.captureWord({
-    word:        result.word,
-    translation: result.translation || result.definition,
-    example:     result.example,
-    language:    settingsStore.targetLanguage,
-    sourceType:  'movie',
-    sourceRef:   {
-      title: selected.value?.Title,
-      year:  selected.value?.Year,
-    },
-  })
-  savedWords.value.add(result.word)
-  activeWord.value = null
-  toast.success(`"${result.word}" saved`)
+  try {
+    immersionStore.captureWord({
+      word:        result.word,
+      translation: result.translation || result.definition,
+      example:     result.example,
+      language:    settingsStore.targetLanguage,
+      sourceType:  'movie',
+      sourceRef:   {
+        title: selected.value?.Title,
+        year:  selected.value?.Year,
+      },
+    })
+    savedWords.value.add(result.word)
+    activeWord.value = null
+    toast.success(`"${result.word}" saved`)
+  } catch (err) {
+    toast.error('Failed to save word')
+  }
 }
 </script>
 

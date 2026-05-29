@@ -227,8 +227,13 @@ function intervalLabel(word) {
 }
 
 async function deletePhrase(id) {
-  await phrasesStore.deletePhrase(id)
-  toast.info('Phrase removed')
+  try {
+    await phrasesStore.deletePhrase(id)
+    toast.info('Phrase removed')
+  } catch (e) {
+    console.error('deletePhrase error:', e)
+    toast.error('Failed to remove phrase')
+  }
 }
 </script>
 

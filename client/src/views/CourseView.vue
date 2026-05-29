@@ -230,12 +230,21 @@ async function installCourse() {
 }
 
 async function startLesson(lesson, unit) {
-  const deck = await coursesStore.startLesson({
-    ...lesson,
-    language: lang.value,
-  })
-  toast.success(`"${lesson.title}" deck created`)
-  router.push({ name: 'study', params: { deckId: deck.id } })
+  try {
+    const deck = await coursesStore.startLesson({
+      ...lesson,
+      language: lang.value,
+    })
+    if (!deck) {
+      toast.error('Failed to create lesson deck')
+      return
+    }
+    toast.success(`"${lesson.title}" deck created`)
+    await router.push({ name: 'study', params: { deckId: deck.id } })
+  } catch (e) {
+    console.error('startLesson error:', e)
+    toast.error('Failed to start lesson')
+  }
 }
 </script>
 

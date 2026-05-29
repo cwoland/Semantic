@@ -122,8 +122,13 @@ const currentCard = computed(() => studyStore.currentCard)
 const phase       = computed(() => studyStore.phase)
 
 onMounted(async () => {
-  const started = await studyStore.startSession(deckId.value)
-  if (!started) {
+  try {
+    const started = await studyStore.startSession(deckId.value)
+    if (!started) {
+      studyStore.phase = 'empty'
+    }
+  } catch (e) {
+    console.error('startSession error:', e)
     studyStore.phase = 'empty'
   }
 })
@@ -135,17 +140,28 @@ onUnmounted(() => {
 })
 
 async function handleRate(quality) {
-  await studyStore.submitAnswer(quality)
+  try {
+    await studyStore.submitAnswer(quality)
 
-  const { correct } = studyStore.progress
-  if (correct > 0 && correct % 10 === 0) {
-    toast.success(`${correct} correct answers this session 🔥`)
+    const { correct } = studyStore.progress
+    if (correct > 0 && correct % 10 === 0) {
+      toast.success(`${correct} correct answers this session 🔥`)
+    }
+  } catch (e) {
+    console.error('submitAnswer error:', e)
+    toast.error('Failed to submit answer')
   }
 }
 
 async function restartSession() {
-  studyStore.resetSession()
-  await studyStore.startSession(deckId.value)
+  try {
+    studyStore.resetSession()
+    await studyStore.startSession(deckId.value)
+  } catch (e) {
+    console.error('restartSession error:', e)
+    toast.error('Failed to restart session')
+    studyStore.phase = 'empty'
+  }
 }
 
 function onKeydown(e) {

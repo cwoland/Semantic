@@ -94,7 +94,11 @@ const recognitionStatus = computed(() => {
 })
 
 function playWord() {
-  speak(props.currentWord.word, langCode.value)
+  try {
+    speak(props.currentWord.word, langCode.value)
+  } catch (err) {
+    console.error('Speech playback failed:', err)
+  }
 }
 
 function toggleRecording() {
@@ -108,30 +112,40 @@ function toggleRecording() {
 function startRecording() {
   if (!speechSupported.value) return
 
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition
-  recognition = new SR()
+  try {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
+    recognition = new SR()
 
-  recognition.lang        = langCode.value
-  recognition.continuous  = false
-  recognition.interimResults = false
+    recognition.lang        = langCode.value
+    recognition.continuous  = false
+    recognition.interimResults = false
 
-  recognition.onresult = (e) => {
-    transcript.value = e.results[0][0].transcript
-    isRecording.value = false
+    recognition.onresult = (e) => {
+      try {
+        transcript.value = e.results[0][0].transcript
+        isRecording.value = false
 
-    if (recognitionStatus.value === 'correct') {
-      emit('correct')
-    } else {
-      emit('incorrect')
+        if (recognitionStatus.value === 'correct') {
+          emit('correct')
+        } else {
+          emit('incorrect')
+        }
+      } catch (err) {
+        console.error('Speech recognition result error:', err)
+        isRecording.value = false
+      }
     }
+
+    recognition.onerror = () => { isRecording.value = false }
+    recognition.onend   = () => { isRecording.value = false }
+
+    recognition.start()
+    isRecording.value = true
+    transcript.value  = ''
+  } catch (err) {
+    console.error('Speech recognition failed:', err)
+    isRecording.value = false
   }
-
-  recognition.onerror = () => { isRecording.value = false }
-  recognition.onend   = () => { isRecording.value = false }
-
-  recognition.start()
-  isRecording.value = true
-  transcript.value  = ''
 }
 
 function stopRecording() {
