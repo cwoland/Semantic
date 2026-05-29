@@ -15,6 +15,7 @@ const CourseView     = () => import('@/views/CourseView.vue')
 const AuthView       = () => import('@/views/AuthView.vue')
 const ProfileView    = () => import('@/views/ProfileView.vue')
 const ShareView      = () => import('@/views/ShareView.vue')
+const StarterDecksView = () => import('@/views/StarterDecksView.vue')
 
 const routes = [
   {
@@ -111,6 +112,12 @@ const routes = [
     name: 'public-profile',
     component: ShareView,
     meta: { title:'Profile - Semantic', fullscreen: true, public: true },
+  },
+  {
+    path: '/starter-decks',
+    name: 'starter-decks',
+    component: StarterDecksView,
+    meta: { title: 'Starter Decks - Semantic', transition: 'fade' },
   },
 ]
 

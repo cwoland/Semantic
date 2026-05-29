@@ -34,9 +34,7 @@
     <div class="immersion-view__panel">
       <Reader       v-if="activeMode === 'reader'" />
       <LyricsPanel  v-if="activeMode === 'music'"  />
-      <div v-if="activeMode === 'movie'" class="coming-soon">
-        <i class="ti ti-movie text-faint" style="font-size:32px" />
-        <p class="text-muted">{{ t.immersion_movie_soon }}</p>
+      <MoviePanel   v-if="active-mode === 'movie'" />
       </div>
     </div>
 
@@ -73,6 +71,7 @@ import { useI18n }           from '@/composables/useI18n'
 import Reader      from '@/components/immersion/Reader.vue'
 import LyricsPanel from '@/components/immersion/LyricsPanel.vue'
 import Modal       from '@/components/shared/Modal.vue'
+import MoviePanel  from '@/components/immersion/MoviePanel.vue'
 
 const immersionStore = useImmersionStore()
 const wordsStore     = useWordsStore()

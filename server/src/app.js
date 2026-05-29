@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import dictionaryRouter from './routes/dictionary.js'
 import translateRouter  from './routes/translate.js'
 import lyricsRouter     from './routes/lyrics.js'
+import moviesRouter     from './routes/movies.js'
 import authRouter       from './routes/auth.js'
 import usersRouter      from './routes/users.js'
 import shareRouter      from './routes/share.js'
@@ -35,6 +36,8 @@ app.use('/api/share',      shareRouter)
 app.use((req, res) => {
   res.status(404).json({ error: `Route ${req.path} not found` })
 })
+
+app.use('/api/movies', moviesRouter)
 
 app.use(errorHandler)
 

@@ -36,6 +36,20 @@
       </button>
     </div>
 
+    <RouterLink :to="{ name: 'starter-decks' }" class="btn btn--ghost">
+      <i class="ti ti-sparkles" />
+      Browse starter decks
+    </RouterLink>
+
+    <section class="decks-ai">
+      <h2 class="section-title">
+        <i class="ti ti-sparkles" /> Generate with AI
+      </h2>
+      <div class="ai-card">
+        <AIDeckGenerator @created="(deck) => router.push({ name: 'deck-detail', params: { id: deck.id } })" />
+      </div>
+    </section>
+
     <Teleport to="body">
       <Transition name="fade">
         <DeckForm
@@ -57,6 +71,7 @@ import { useToast }      from '@/composables/useToast'
 import { useI18n }       from '@/composables/useI18n'
 import DeckCard from '@/components/decks/DeckCard.vue'
 import DeckForm from '@/components/decks/DeckForm.vue'
+import AIDeckGenerator from '@/components/decks/AIDeckGenerator.vue'
 
 const router      = useRouter()
 const decksStore  = useDecksStore()
@@ -168,4 +183,11 @@ function goStudy(deckId) {
   border-color: var(--color-accent);
 }
 .btn--primary:hover { background: var(--color-accent-hover); }
+
+.ai-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
 </style>
