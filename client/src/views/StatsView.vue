@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useStatsStore }  from '@/stores/stats.store'
 import { useStreakStore }  from '@/stores/streak.store'
 import { useWordsStore }  from '@/stores/words.store'
@@ -75,6 +75,10 @@ const streakStore = useStreakStore()
 const wordsStore  = useWordsStore()
 const decksStore  = useDecksStore()
 const { t }       = useI18n()
+
+onMounted(async () => {
+  await statsStore.loadStats()
+})
 
 const retentionSeries = computed(() =>
   statsStore.dailyStats.map(d => ({

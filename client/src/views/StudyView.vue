@@ -45,62 +45,60 @@
         </div>
       </Transition>
 
-      <Transition name="fade">
-        <div
-          v-if="phase === 'question' || phase === 'answer'"
-          class="study-view__session"
-        >
+<Transition name="fade">
+  <div
+    v-if="phase === 'question' || phase === 'answer'"
+    class="study-view__session"
+  >
 
-          <FlashCard
-            v-if="currentCard"
-            :card="currentCard"
-            :is-flipped="phase === 'answer'"
-            @reveal="studyStore.revealAnswer()"
-          />
+    <button
+      class="listening-toggle"
+      @click="showListening = !showListening"
+    >
+      <i :class="['ti', showListening ? 'ti-cards' : 'ti-headphones']" />
+      {{ showListening ? 'Flashcard' : 'Listen' }}
+    </button>
 
-          <Transition name="fade">
-            <ListeningMode
-             v-if="phase === 'answer' && showListening && currentCard"
-             :current-word="currentCard"
-             @correct="handleRate(4)"
-             @incorrect="() => {}"
-             style="width: 100%; max-width: 600px;"
-            />
-          </Transition>
+    <FlashCard
+      v-if="currentCard && !showListening"
+      :card="currentCard"
+      :is-flipped="phase === 'answer'"
+      @reveal="studyStore.revealAnswer()"
+    />
 
-          <button
-           v-if="phase === 'answer'"
-           class="listening-toggle"
-           @click="showListening = !showListening"
-           :title="showListening ? 'Switch to flashcard mode' : 'Switch to listening mode'"
-          >
-          <i :class="['ti', showListening ? 'ti-cards' : 'ti-headphones']" />
-          {{ showListening ? 'Flashcard' : 'Listening' }}
-          </button>
+    <ListeningMode
+      v-if="currentCard && showListening"
+      :current-word="currentCard"
+      @correct="handleRate(4)"
+      @incorrect="() => {}"
+      style="width: 100%; max-width: 600px;"
+    />
 
-          <Transition name="slide-up">
-            <RatingBar
-              v-if="phase === 'answer'"
-              :card="currentCard"
-              @rate="handleRate"
-            />
-          </Transition>
+    <Transition name="slide-up">
+      <RatingBar
+        v-if="phase === 'answer'"
+        :card="currentCard"
+        @rate="handleRate"
+      />
+    </Transition>
 
-          <div class="study-view__shortcuts" v-if="phase === 'question'">
-            <span class="text-faint" style="font-size: var(--text-xs);">
-              <kbd>Space</kbd> {{ t.study_reveal }} &nbsp;·&nbsp; <kbd>Esc</kbd> exit
-            </span>
-          </div>
+    <div class="study-view__shortcuts" v-if="phase === 'question' && !showListening">
+      <span class="text-faint" style="font-size: var(--text-xs);">
+        <kbd>Space</kbd> {{ t.study_reveal }} &nbsp;·&nbsp; <kbd>Esc</kbd> exit
+      </span>
+    </div>
 
-          <div class="study-view__shortcuts" v-if="phase === 'answer'">
-            <span class="text-faint" style="font-size: var(--text-xs);">
-              <kbd>1</kbd> {{ t.study_again }} &nbsp;·&nbsp; <kbd>2</kbd> {{ t.study_hard }} &nbsp;·&nbsp;
-              <kbd>3</kbd> {{ t.study_good }} &nbsp;·&nbsp; <kbd>4</kbd> {{ t.study_easy }}
-            </span>
-          </div>
+    <div class="study-view__shortcuts" v-if="phase === 'answer' && !showListening">
+      <span class="text-faint" style="font-size: var(--text-xs);">
+        <kbd>1</kbd> {{ t.study_again }} &nbsp;·&nbsp;
+        <kbd>2</kbd> {{ t.study_hard }} &nbsp;·&nbsp;
+        <kbd>3</kbd> {{ t.study_good }} &nbsp;·&nbsp;
+        <kbd>4</kbd> {{ t.study_easy }}
+      </span>
+    </div>
 
-        </div>
-      </Transition>
+  </div>
+</Transition>
 
       <Transition name="fade">
         <div v-if="phase === 'done'" class="study-view__center">
@@ -118,7 +116,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { useStudyStore } from '@/stores/study.store'

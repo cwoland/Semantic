@@ -18,7 +18,7 @@
       <input
         v-model="topic"
         class="form-input"
-        placeholder="t.ai_decks_topic_placeholder"
+        :placeholder="t.ai_decks_topic_placeholder"
         @keydown.enter="generate"
       />
     </div>

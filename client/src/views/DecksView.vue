@@ -184,6 +184,13 @@ function goStudy(deckId) {
 }
 .btn--primary:hover { background: var(--color-accent-hover); }
 
+.decks-ai {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
 .ai-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);

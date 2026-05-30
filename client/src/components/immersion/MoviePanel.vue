@@ -8,7 +8,7 @@
           <input
             v-model="query"
             class="form-input"
-            placeholder="t.movie_title_placeholder"
+            :placeholder="t.movie_title_placeholder"
             @keydown.enter="searchMovie"
           />
         </div>
@@ -69,7 +69,7 @@
         <textarea
           v-model="subtitleText"
           class="form-input subtitle-input"
-          placeholder="t.movie_paste_placeholder"
+          :placeholder="t.movie_paste_placeholder"
           rows="6"
         />
         <button
@@ -189,8 +189,14 @@ async function searchMovie() {
       params: { q: query.value }
     })
     results.value = data.results ?? []
-  } catch {
-    toast.error('Movie search failed')
+    if (!results.value.length) {
+      toast.info('No movies found. Try another title.')
+    }
+  } catch (err) {
+    console.error('Movie search error:', err)
+    toast.info('Movie search unavailable. Paste subtitles manually below.')
+    selected.value = { Title: query.value, Year: '', Poster: 'N/A', imdbID: 'manual' }
+    results.value  = []
   } finally {
     searching.value = false
   }
