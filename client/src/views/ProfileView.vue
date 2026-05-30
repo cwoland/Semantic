@@ -66,7 +66,7 @@
             <input
               v-model="form.username"
               class="form-input form-input--prefixed"
-              placeholder={{t.profile_username}}
+              placeholder="t.profile_username"
             />
           </div>
           <span class="form-error" v-if="errors.username">{{ errors.username }}</span>
@@ -87,7 +87,7 @@
           <textarea
             v-model="form.bio"
             class="form-input form-textarea"
-            placeholder={{t.profile_bio_placehold}}
+            placeholder="t.profile_bio_placehold"
             maxlength="160"
             rows="3"
           />

@@ -3,9 +3,9 @@
 
     <header class="page-header">
       <div>
-        <h1 class="page-title">Starter Decks</h1>
+        <h1 class="page-title">{{ t.starter_decks_title }}</h1>
         <p class="text-muted" style="font-size: var(--text-sm); margin-top: var(--space-1)">
-          Ready-made vocabulary collections
+          {{t.starter_decks_title_desc}}
         </p>
       </div>
     </header>
@@ -46,7 +46,7 @@
         <div class="starter-card__meta">
           <span class="starter-meta-item">
             <i class="ti ti-cards" />
-            {{ deck.words.length }} words
+            {{ deck.words.length }} {{ t.starter_decks_words }}
           </span>
           <span class="starter-meta-item">
             <i class="ti ti-language" />
@@ -74,7 +74,7 @@
           <div class="spinner" v-if="installing === deck.id" />
           <i class="ti ti-circle-check" v-else-if="isInstalled(deck.id)" />
           <i class="ti ti-download" v-else />
-          {{ isInstalled(deck.id) ? 'Added' : 'Add to my decks' }}
+          {{ isInstalled(deck.id) ? t.starter_decks_added : t.starter_decks_add_btn }}
         </button>
       </div>
     </div>
@@ -89,11 +89,13 @@ import { useDecksStore } from '@/stores/decks.store'
 import { useWordsStore }  from '@/stores/words.store'
 import { useToast }       from '@/composables/useToast'
 import { STARTER_DECKS }  from '@/data/starter-decks'
+import { useI18n }        from '@/composables/useI18n'
 
 const router     = useRouter()
 const decksStore = useDecksStore()
 const wordsStore = useWordsStore()
 const toast      = useToast()
+const { t }      = useI18n()
 
 const activeLang = ref('all')
 const installing = ref(null)

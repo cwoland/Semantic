@@ -4,11 +4,11 @@
     <div class="movie-search">
       <div class="search-row">
         <div class="field">
-          <label class="field__label">Movie or TV Show</label>
+          <label class="field__label">{{t.movie_title}}</label>
           <input
             v-model="query"
             class="form-input"
-            placeholder="e.g. La Vita è Bella, Money Heist…"
+            placeholder="t.movie_title_placeholder"
             @keydown.enter="searchMovie"
           />
         </div>
@@ -19,7 +19,7 @@
         >
           <div class="spinner" v-if="searching" />
           <i class="ti ti-search" v-else />
-          Search
+          {{ t.movie_search }}
         </button>
       </div>
     </div>
@@ -63,13 +63,13 @@
 
       <div class="subtitle-section">
         <label class="field__label">
-          Paste subtitles or dialogue
-          <span class="text-faint" style="font-size: 10px">(SRT or plain text)</span>
+          {{t.movie_paste}}
+          <span class="text-faint" style="font-size: 10px">{{t.movie_srt}}</span>
         </label>
         <textarea
           v-model="subtitleText"
           class="form-input subtitle-input"
-          placeholder="00:01:23 --> 00:01:26&#10;Ciao, come stai?&#10;&#10;00:01:27 --> 00:01:30&#10;Bene, grazie!"
+          placeholder="t.movie_paste_placeholder"
           rows="6"
         />
         <button
@@ -78,7 +78,7 @@
           :disabled="!subtitleText.trim()"
         >
           <i class="ti ti-player-play" />
-          Load subtitles
+          {{t.movie_load_sub}}
         </button>
       </div>
 
@@ -108,7 +108,7 @@
 
     <div class="movie-empty" v-if="!selected && !results.length">
       <i class="ti ti-movie" />
-      <p class="text-muted">Search for a movie to load subtitles and study vocabulary</p>
+      <p class="text-muted">{{t.movie_desc}}</p>
     </div>
 
     <WordCapture
@@ -133,11 +133,13 @@ import { useSettingsStore }  from '@/stores/settings.store'
 import { useToast }          from '@/composables/useToast'
 import api                   from '@/services/api'
 import WordCapture           from './WordCapture.vue'
+import { useI18n }           from '@/composables/useI18n'
 
 const immersionStore = useImmersionStore()
 const settingsStore  = useSettingsStore()
 const { result: translateResult, loading: translateLoading, lookup } = useTranslate()
 const toast = useToast()
+const { t } = useI18n()
 
 const query        = ref('')
 const results      = ref([])

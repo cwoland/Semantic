@@ -3,17 +3,17 @@
     <div class="lyrics-panel__search">
       <div class="search-row">
         <div class="field">
-          <label class="field__label">Artist</label>
+          <label class="field__label">{{t.lyrics_artist}}</label>
           <input v-model="artist" class="form-input" placeholder="e.g. Lucio Battisti" @keydown.enter="fetchLyrics" />
         </div>
         <div class="field">
-          <label class="field__label">Song</label>
+          <label class="field__label">{{t.lyrics_song}}</label>
           <input v-model="song" class="form-input" placeholder="e.g. Emozioni" @keydown.enter="fetchLyrics" />
         </div>
         <button class="btn btn--primary" @click="fetchLyrics" :disabled="loading || !artist || !song">
           <i class="ti ti-search" v-if="!loading" />
           <div class="spinner" v-else />
-          Find
+          {{t.lyrics_find}}
         </button>
       </div>
     </div>
@@ -45,7 +45,7 @@
 
     <div class="lyrics-panel__empty" v-else-if="!loading">
       <i class="ti ti-music text-faint" style="font-size: 32px" />
-      <p class="text-muted">Search for a song to load lyrics</p>
+      <p class="text-muted">{{t.lyrics_desc}}</p>
     </div>
 
     <WordCapture
@@ -70,11 +70,13 @@ import { useImmersionStore } from '@/stores/immersion.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useToast } from '@/composables/useToast'
 import WordCapture from './WordCapture.vue'
+import { useI18n } from '@/composables/useI18n'
 
 const immersionStore = useImmersionStore()
 const settingsStore  = useSettingsStore()
 const { result: translateResult, loading: translateLoading, lookup } = useTranslate()
 const toast = useToast()
+const { t } = useI18n()
 
 const artist    = ref('')
 const song      = ref('')

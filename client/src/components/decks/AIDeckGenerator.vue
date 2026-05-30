@@ -6,26 +6,26 @@
         <i class="ti ti-sparkles" />
         AI
       </div>
-      <h3>Generate deck with AI</h3>
+      <h3>{{ t.ai_decks_title }}</h3>
     </div>
 
     <p class="text-muted" style="font-size: var(--text-sm)">
-      Describe a topic and AI will create a vocabulary deck for you
+      {{t.ai_decks_title_desc}}
     </p>
 
     <div class="form-group">
-      <label class="form-label">Topic</label>
+      <label class="form-label">{{t.ai_decks_topic}}</label>
       <input
         v-model="topic"
         class="form-input"
-        placeholder="e.g. Italian cuisine, Japanese business, French cinema…"
+        placeholder="t.ai_decks_topic_placeholder"
         @keydown.enter="generate"
       />
     </div>
 
     <div class="ai-options">
       <div class="form-group">
-        <label class="form-label">Language</label>
+        <label class="form-label">{{t.ai_decks_language}}</label>
         <select v-model="language" class="form-input form-select">
           <option v-for="l in LANGUAGES" :key="l.code" :value="l.code">
             {{ l.flag }} {{ l.name }}
@@ -34,11 +34,11 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Word count</label>
+        <label class="form-label">{{ t.ai_decks_word_count }}</label>
         <select v-model="wordCount" class="form-input form-select">
-          <option :value="10">10 words</option>
-          <option :value="20">20 words</option>
-          <option :value="30">30 words</option>
+          <option :value="10">{{t.ai_decks_10}}</option>
+          <option :value="20">{{t.ai_decks_20}}</option>
+          <option :value="30">{{t.ai_decks_30}}</option>
         </select>
       </div>
     </div>
@@ -50,18 +50,18 @@
     >
       <div class="spinner-light" v-if="aiLoading" />
       <i class="ti ti-sparkles" v-else />
-      {{ aiLoading ? 'Generating…' : 'Generate deck' }}
+      {{ aiLoading ? t.ai_decks_btn_active : t.ai_decks_btn_gen }}
     </button>
 
     <Transition name="slide-up">
       <div class="ai-preview" v-if="generatedWords.length">
         <div class="ai-preview__header">
           <span class="text-muted" style="font-size: var(--text-sm)">
-            {{ generatedWords.length }} words generated
+            {{ generatedWords.length }} {{t.ai_decks_generated}}
           </span>
           <button class="regenerate-btn" @click="generate">
             <i class="ti ti-refresh" />
-            Regenerate
+            {{t.ai_decks_regenerate}}
           </button>
         </div>
 
@@ -84,7 +84,7 @@
         >
           <div class="spinner" v-if="saving" />
           <i class="ti ti-download" v-else />
-          Save as deck
+          {{t.ai_decks_btn_save}}
         </button>
       </div>
     </Transition>
@@ -104,6 +104,7 @@ import { useDecksStore }  from '@/stores/decks.store'
 import { useWordsStore }  from '@/stores/words.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useToast }       from '@/composables/useToast'
+import { useI18n }        from '@/composables/useI18n'
 
 const emit = defineEmits(['created'])
 
@@ -111,6 +112,7 @@ const decksStore    = useDecksStore()
 const wordsStore    = useWordsStore()
 const settingsStore = useSettingsStore()
 const toast         = useToast()
+const { t }         = useI18n()
 
 const { loading: aiLoading, error: aiError, generateDeck } = useAI()
 

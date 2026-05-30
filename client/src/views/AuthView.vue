@@ -39,7 +39,7 @@
 
         <Transition name="fade">
           <div v-if="mode === 'register'" class="form-group">
-            <label class="form-label">{{t.auth_register_surname}}</label>
+            <label class="form-label">{{t.auth_register_username}}</label>
             <div class="input-with-prefix">
               <span class="input-prefix">@</span>
               <input
