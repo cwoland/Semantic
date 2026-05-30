@@ -102,7 +102,7 @@ const retentionDisplay = computed(() => {
 
 .summary__stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-3);
   width: 100%;
 }

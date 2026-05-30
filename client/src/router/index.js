@@ -45,8 +45,22 @@ const routes = [
     path: '/decks/:id',
     name: 'deck-detail',
     component: DeckDetailView,
-    meta: { title: 'Deck — Semantic', transition: 'slide-right', fullscreen: true },
+    meta: { title: 'Deck — Semantic', transition: 'slide-right' },
   },
+  {
+  path: '/study/:deckId',
+  name: 'study',
+  component: StudyView,
+  meta: { title: 'Study — Semantic', transition: 'slide-up', fullscreen: true },
+  beforeEnter: async (to) => {
+    const { useAuthStore } = await import('@/stores/auth.store')
+    if (!useAuthStore().isLoggedIn) return { name: 'auth' }
+    
+    const decksStore = useDecksStore()
+    const deck = decksStore.deckById(Number(to.params.deckId))
+    if (!deck) return { name: 'decks' }
+  },
+},
   {
     path: '/vocab',
     name: 'vocab',
@@ -70,12 +84,6 @@ const routes = [
     name: 'settings',
     component: SettingsView,
     meta: { title: 'Settings — Semantic', transition: 'slide-right' },
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'not-found',
-    component: NotFoundView,
-    meta: { title: '404 — Semantic' },
   },
   {
     path: '/welcome',
@@ -119,6 +127,12 @@ const routes = [
     component: StarterDecksView,
     meta: { title: 'Starter Decks - Semantic', transition: 'fade' },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFoundView,
+    meta: { title: '404 — Semantic' },
+  },
 ]
 
 const router = createRouter({
@@ -144,18 +158,30 @@ router.beforeEach(async (to) => {
 
   if (!settings._loaded) await settings.loadSettings()
 
+  if (authStore.initializing) {
+    await new Promise(resolve => {
+      const check = setInterval(() => {
+        if (!authStore.initializing) {
+          clearInterval(check)
+          resolve()
+        }
+      }, 50)
+      setTimeout(() => { clearInterval(check); resolve() }, 3000)
+    })
+  }
+
   const isPublic     = !!to.meta.public
   const isAuth       = to.name === 'auth'
   const isOnboarding = to.name === 'onboarding'
-  const isShare      = to.name === 'share' || to.name === 'public-profile'
 
-  if (isPublic || isShare) return
+  if (isPublic) return
 
-  if (!authStore.isLoggedIn && !authStore.initializing) {
+  if (!authStore.isLoggedIn) {
     if (!isAuth) return { name: 'auth' }
+    return
   }
 
-  if (authStore.isLoggedIn && isAuth) {
+  if (isAuth) {
     return settings.targetLanguage
       ? { name: 'dashboard' }
       : { name: 'onboarding' }

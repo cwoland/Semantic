@@ -71,7 +71,7 @@ const props = defineProps({
 const emit = defineEmits(['correct', 'incorrect'])
 
 const settingsStore  = useSettingsStore()
-const { speak, speaking, langCode: getLangCode } = useSpeech()
+const { speak, speaking, toLangCode } = useSpeech()
 
 const revealed     = ref(false)
 const transcript   = ref('')
@@ -79,11 +79,12 @@ const isRecording  = ref(false)
 let   recognition  = null
 
 const langCode = computed(() =>
-  getLangCode(props.currentWord.language || settingsStore.targetLanguage)
+  toLangCode(props.currentWord.language || settingsStore.targetLanguage)
 )
 
 const speechSupported = computed(() =>
-  'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
+  typeof window !== 'undefined' &&
+  ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)
 )
 
 const recognitionStatus = computed(() => {

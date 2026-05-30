@@ -58,6 +58,26 @@
             @reveal="studyStore.revealAnswer()"
           />
 
+          <Transition name="fade">
+            <ListeningMode
+             v-if="phase === 'answer' && showListening && currentCard"
+             :current-word="currentCard"
+             @correct="handleRate(4)"
+             @incorrect="() => {}"
+             style="width: 100%; max-width: 600px;"
+            />
+          </Transition>
+
+          <button
+           v-if="phase === 'answer'"
+           class="listening-toggle"
+           @click="showListening = !showListening"
+           :title="showListening ? 'Switch to flashcard mode' : 'Switch to listening mode'"
+          >
+          <i :class="['ti', showListening ? 'ti-cards' : 'ti-headphones']" />
+          {{ showListening ? 'Flashcard' : 'Listening' }}
+          </button>
+
           <Transition name="slide-up">
             <RatingBar
               v-if="phase === 'answer'"
@@ -109,6 +129,7 @@ import { useI18n }       from '@/composables/useI18n'
 import FlashCard      from '@/components/study/FlashCard.vue'
 import RatingBar      from '@/components/study/RatingBar.vue'
 import SessionStats from '@/components/study/SessionStats.vue'
+import ListeningMode from '@/components/study/ListeningMode.vue'
 
 const route      = useRoute()
 const studyStore = useStudyStore()
@@ -120,6 +141,7 @@ const deckId     = computed(() => Number(route.params.deckId))
 const activeDeck = computed(() => decksStore.deckById(deckId.value))
 const currentCard = computed(() => studyStore.currentCard)
 const phase       = computed(() => studyStore.phase)
+const showListening = ref(false)
 
 onMounted(async () => {
   try {
@@ -345,6 +367,24 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 .btn--ghost:hover {
   background: var(--color-surface-3);
   color: var(--color-text);
+}
+
+.listening-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface-2);
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: all 140ms;
+}
+.listening-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 @media (max-width: 768px) {

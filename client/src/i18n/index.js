@@ -60,6 +60,7 @@ export const TRANSLATIONS = {
     nav_course:     'Course',
     nav_settings:   'Settings',
     nav_command:    'Command',
+    nav_profile:    'Profile',
 
     dash_greeting_morning:   'Good morning',
     dash_greeting_afternoon: 'Good afternoon',
@@ -296,6 +297,7 @@ export const TRANSLATIONS = {
     nav_course:     'Курс',
     nav_settings:   'Настройки',
     nav_command:    'Команды',
+    nav_profile:    'Профиль',
 
     dash_greeting_morning:   'Доброе утро',
     dash_greeting_afternoon: 'Добрый день',
@@ -533,6 +535,7 @@ export const TRANSLATIONS = {
     nav_course:     'Course',
     nav_settings:   'Settings',
     nav_command:    'Command',
+    nav_profile:    'Profile',
 
     dash_greeting_morning:   'Good morning',
     dash_greeting_afternoon: 'Good afternoon',
@@ -769,6 +772,7 @@ export const TRANSLATIONS = {
     nav_course:     'Course',
     nav_settings:   'Settings',
     nav_command:    'Command',
+    nav_profile:    'Profil',
 
     dash_greeting_morning:   'Bonne matinée',
     dash_greeting_afternoon: 'Bonne journée',
@@ -1005,6 +1009,7 @@ export const TRANSLATIONS = {
     nav_course:     'Course',
     nav_settings:   'Settings',
     nav_command:    'Command',
+    nav_profile: 'Profil',
 
     dash_greeting_morning:   'Good morning',
     dash_greeting_afternoon: 'Good afternoon',
@@ -1241,6 +1246,7 @@ export const TRANSLATIONS = {
     nav_course:     'Course',
     nav_settings:   'Settings',
     nav_command:    'Command',
+    nav_profile:    'Profil',
 
     dash_greeting_morning:   'Good morning',
     dash_greeting_afternoon: 'Good afternoon',

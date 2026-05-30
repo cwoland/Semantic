@@ -36,5 +36,5 @@ export function useSpeech() {
     return LANG_MAP[iso] ?? iso
   }
 
-  return { speak, stop, speaking, supported, langCode }
+  return { speak, stop, speaking, supported, toLangCode: langCode }
 }

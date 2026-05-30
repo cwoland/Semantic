@@ -9,6 +9,7 @@ import {
   uploadAvatar as apiUploadAvatar,
   deleteAvatar as apiDeleteAvatar,
 } from '@/services/auth.service'
+import axios from 'axios'
 
 export const useAuthStore = defineStore('auth', () => {
 
@@ -31,22 +32,42 @@ export const useAuthStore = defineStore('auth', () => {
       .toUpperCase()
   })
 
-  async function init() {
-    initializing.value = true
-    const token = localStorage.getItem('accessToken')
-    if (!token) {
-      initializing.value = false
-      return
-    }
-    try {
-      user.value = await getMe()
-    } catch {
+async function init() {
+  initializing.value = true
+  const token = localStorage.getItem('accessToken')
+  
+  if (!token) {
+    initializing.value = false
+    return
+  }
+  
+  try {
+    user.value = await getMe()
+  } catch (err) {
+    if (err.response?.status === 401) {
+      try {
+        const refreshToken = localStorage.getItem('refreshToken')
+        if (!refreshToken) throw new Error('no refresh')
+        
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL || ''}/api/auth/refresh`,
+          { refreshToken }
+        )
+        localStorage.setItem('accessToken',  data.accessToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+        user.value = await getMe()
+      } catch {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+      }
+    } else {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
-    } finally {
-      initializing.value = false
     }
+  } finally {
+    initializing.value = false
   }
+}
 
   async function register(data) {
     loading.value = true

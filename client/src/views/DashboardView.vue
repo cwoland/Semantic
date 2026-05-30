@@ -362,8 +362,8 @@ function goStudy(deckId) {
 
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-3);
 }
 
 .quick-action {
@@ -397,6 +397,7 @@ function goStudy(deckId) {
 
 .quick-action p {
   font-size: var(--text-xs);
+  line-height: var(--leading-snug);
 }
 
 .empty-state {
