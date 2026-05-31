@@ -1,9 +1,8 @@
-<div v-if="loading" class="stats-loading">
-  <div class="spinner" />
-</div>
-
-<template v-else>
-  <div class="stats-view">
+<template>
+  <div v-if="loading" class="stats-loading">
+    <div class="spinner"></div>
+  </div>
+  <div v-else class="stats-view">
     <header class="page-header">
       <h1 class="page-title">{{ t.stats_title }}</h1>
       <StreakBadge
