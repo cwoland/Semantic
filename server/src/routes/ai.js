@@ -4,34 +4,45 @@ import axios from 'axios'
 const router = Router()
 
 router.post('/generate-deck', async (req, res, next) => {
+  console.log('AI request body:', JSON.stringify(req.body))
+  
+  const { topic, language, nativeLanguage = 'en', count = 10 } = req.body || {}
+
+  if (!topic?.trim()) {
+    return res.status(400).json({ error: 'Missing topic' })
+  }
+  if (!language?.trim()) {
+    return res.status(400).json({ error: 'Missing language' })
+  }
+  if (!process.env.GEMINI_API_KEY) {
+    return res.status(503).json({ error: 'AI service not configured' })
+  }
+
   try {
-    const { topic, language, nativeLanguage = 'en', count = 10 } = req.body
-
-    if (!topic || !language) {
-      return res.status(400).json({ error: 'Missing topic or language' })
-    }
-
     const prompt = `Create a vocabulary deck of ${count} words in ${language} about: "${topic}".
-Return ONLY a JSON array, no markdown, no explanation:
-[{"word":"...","translation":"...in ${nativeLanguage}","example":"...","notes":"..."}]`
+Return ONLY a valid JSON array, no markdown, no explanation:
+[{"word":"...","translation":"translation in ${nativeLanguage}","example":"...","notes":"..."}]`
 
     const { data } = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1000 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
       }
     )
 
     const text  = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
-    const clean = text.replace(/```json|```/g, '').trim()
-    const match = clean.match(/\[[\s\S]*\]/)
-    if (!match) return res.status(500).json({ error: 'Invalid AI response' })
+    const match = text.replace(/```json|```/g, '').match(/\[[\s\S]*\]/)
+    
+    if (!match) {
+      console.error('AI response has no JSON array:', text)
+      return res.status(500).json({ error: 'AI returned invalid response' })
+    }
 
     const words = JSON.parse(match[0])
     res.json({ words })
   } catch (err) {
-    console.error('AI error:', err.message)
+    console.error('Gemini API error:', err.response?.data ?? err.message)
     next(err)
   }
 })

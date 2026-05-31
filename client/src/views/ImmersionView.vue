@@ -34,8 +34,8 @@
     <div class="immersion-view__panel">
       <Reader       v-if="activeMode === 'reader'" />
       <LyricsPanel  v-if="activeMode === 'music'"  />
-      <MoviePanel   v-if="active-mode === 'movie'" />
-      </div>
+      <MoviePanel   v-if="activeMode === 'movie'" />
+    </div>
     </div>
 
     <Modal v-model="showSaveModal" :title="t.immersion_save_words">
@@ -89,7 +89,11 @@ const modes = computed(() => [
 
 function switchMode(mode) {
   activeMode.value = mode
-  immersionStore.startImmersion(mode)
+  if (!immersionStore.isActive) {
+    immersionStore.startImmersion(mode)
+  } else {
+    immersionStore.mode = mode
+  }
 }
 
 async function saveToDeck(deckId) {

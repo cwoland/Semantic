@@ -76,7 +76,7 @@
               class="form-input form-input--suffixed"
               :class="{ 'form-input--error': errors.password }"
               :type="showPassword ? 'text' : t.auth_register_password "
-              placeholder='t.auth_register_min_pass'
+              :placeholder="t.auth_register_min_pass"
               autocomplete="current-password"
             />
             <button

@@ -62,6 +62,7 @@ export const useStreakStore = defineStore('streak', () => {
 
     lastStudyDate.value = today
     persist()
+    console.log('Streak updated:', currentStreak.value, 'XP:', todayXP.value)
   }
 
   function setDailyGoal(cards) {

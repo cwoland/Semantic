@@ -87,7 +87,7 @@
           <textarea
             v-model="form.bio"
             class="form-input form-textarea"
-            placeholder='t.profile_bio_placehold'
+            :placeholder="t.profile_bio_placehold"
             maxlength="160"
             rows="3"
           />

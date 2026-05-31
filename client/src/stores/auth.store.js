@@ -34,24 +34,22 @@ export const useAuthStore = defineStore('auth', () => {
 
 async function init() {
   initializing.value = true
-  const token = localStorage.getItem('accessToken')
   
-  if (!token) {
+  const storedAccess  = localStorage.getItem('accessToken')
+  const storedRefresh = localStorage.getItem('refreshToken')
+
+  if (!storedAccess && !storedRefresh) {
     initializing.value = false
     return
   }
-  
   try {
     user.value = await getMe()
-  } catch (err) {
-    if (err.response?.status === 401) {
+  } catch {
+    if (storedRefresh) {
       try {
-        const refreshToken = localStorage.getItem('refreshToken')
-        if (!refreshToken) throw new Error('no refresh')
-        
         const { data } = await axios.post(
           `${import.meta.env.VITE_API_URL || ''}/api/auth/refresh`,
-          { refreshToken }
+          { refreshToken: storedRefresh }
         )
         localStorage.setItem('accessToken',  data.accessToken)
         localStorage.setItem('refreshToken', data.refreshToken)
@@ -59,10 +57,11 @@ async function init() {
       } catch {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
+        user.value = null
       }
     } else {
       localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
+      user.value = null
     }
   } finally {
     initializing.value = false

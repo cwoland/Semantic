@@ -1,4 +1,8 @@
-<template>
+<div v-if="loading" class="stats-loading">
+  <div class="spinner" />
+</div>
+
+<template v-else>
   <div class="stats-view">
     <header class="page-header">
       <h1 class="page-title">{{ t.stats_title }}</h1>
@@ -59,7 +63,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStatsStore }  from '@/stores/stats.store'
 import { useStreakStore }  from '@/stores/streak.store'
 import { useWordsStore }  from '@/stores/words.store'
@@ -75,9 +79,11 @@ const streakStore = useStreakStore()
 const wordsStore  = useWordsStore()
 const decksStore  = useDecksStore()
 const { t }       = useI18n()
+const loading     = ref(true)
 
 onMounted(async () => {
-  await statsStore.loadStats()
+  await statsStore.loadStats(90)
+  loading.value = false
 })
 
 const retentionSeries = computed(() =>
@@ -89,6 +95,21 @@ const retentionSeries = computed(() =>
 </script>
 
 <style scoped>
+.stats-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+.spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .stats-view { padding: var(--space-8); max-width: 860px; width: 100%; display: flex; flex-direction: column; gap: var(--space-8); }
 .page-header { display: flex; align-items: center; justify-content: space-between; }
 .page-title  { font-size: var(--text-2xl); letter-spacing: -0.02em; }

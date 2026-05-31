@@ -110,11 +110,16 @@ export const useStudyStore = defineStore('study', () => {
             incorrect: sessionLog.value.filter(r => r.quality < 3).length,
             log: sessionLog.value,
         }
+
+        try {
         const id = await db.sessions.add(summary)
         session.value = { ...session.value, id, completedAt: summary.completedAt }
 
         streakStore.recordActivity(summary)
         statsStore.recordSession(summary)
+        } catch (e) {
+            console.error('Failed to save session:', e)
+        }
     }
 
     function resetSession() {
@@ -134,8 +139,8 @@ export const useStudyStore = defineStore('study', () => {
 
         let ni = 0, ri = 0
         while (ri < reviews.length || ni < newCards.length) {
-            for (let i = 0; i < step && re < reviews.length; i++) result.push(reviews[ri++])
-                if (ni < newCards.length) result.push(newCards[ni++])
+            for (let i = 0; i < step && ri < reviews.length; i++) result.push(reviews[ri++])
+            if (ni < newCards.length) result.push(newCards[ni++])
         }
         return result
     }
